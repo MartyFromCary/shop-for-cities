@@ -23,10 +23,8 @@ const fakeAuth = {
     setTimeout(cb, 100);
   }
 };
-
 const Public = () => <h3>Public</h3>;
 const Protected = () => <h3>Protected</h3>;
-
 class LLogin extends Component {
   state = { redirectToReferrer: false };
   login = () => {
@@ -40,7 +38,6 @@ class LLogin extends Component {
     if (redirectToReferrer === true) {
       return <Redirect to={from} />;
     }
-
     return (
       <div>
         <p>Your must login to view this page at {from.pathname}</p>
@@ -49,7 +46,6 @@ class LLogin extends Component {
     );
   }
 }
-
 const PrivateRoute = withRouter(({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -69,7 +65,6 @@ const PrivateRoute = withRouter(({ component: Component, ...rest }) => (
     }
   />
 ));
-
 const AuthButton = ({ history }) => {
   return fakeAuth.isAuthenticated === true ? (
     <p>
