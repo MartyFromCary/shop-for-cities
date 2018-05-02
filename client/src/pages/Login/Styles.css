@@ -1,0 +1,22 @@
+body {
+	background-image: url("../../Images/homePageBackground.jpg");
+	position:relative;
+	top:100px;
+	left:600px;
+	max-width: 100%;
+    height: auto;
+    background-color:#bebdc7;
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size:cover;
+}
+
+.box {
+	background-color: rgba(80,79, 79, .8);
+	position:relative;
+	top:5px;
+	padding-top: 40px;
+	padding-right:20px;
+	padding-bottom:80px;
+	padding-left:20px;
+}
