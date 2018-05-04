@@ -103,6 +103,7 @@ class Search extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
+            <div className="box">
             <Jumbotron>
               <h1>Search City</h1>
             </Jumbotron>
@@ -132,11 +133,13 @@ class Search extends Component {
                 Search City
               </FormBtn>
             </form>
+            </div>
           </Col>
         </Row>
 
         <Row>
           <Col size="md-6 sm-12">
+            <div className="results">
             {this.state.cities.length ? (
               <table>
                 <thead>
@@ -150,7 +153,7 @@ class Search extends Component {
                     <Th>Long</Th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="table">
                   {this.state.cities.map(city => (
                     <Tr
                       key={city.id}
@@ -175,6 +178,7 @@ class Search extends Component {
             ) : (
               <h3>No Cities Found</h3>
             )}
+            </div>
           </Col>
         </Row>
       </Container>
