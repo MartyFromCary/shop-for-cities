@@ -246,5 +246,5 @@
       </Container>
     );
   }
-
-  export default Search;
+}
+export default Search;
