@@ -33,7 +33,7 @@ class Login extends Component {
         if (res.status === 200) {
           //alert("User successfully created");
           console.log(res.data);
-          window.location.replace("/search");
+          window.location.replace("/saved");
         } else {
           alert("DB failed");
           console.log(res);
@@ -56,7 +56,7 @@ class Login extends Component {
       .then(href => {
         console.log("href:");
         console.log(href);
-        window.location.replace("/search");
+        window.location.replace("/saved");
       })
       .catch(err => console.log(err));
     // .fail(err => alert(`Error: ${err.responseText}`));

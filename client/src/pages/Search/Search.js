@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import Styles from "./Styles.css";
 import Jumbotron from "../../components/Jumbotron";
@@ -104,80 +105,87 @@ class Search extends Component {
         <Row>
           <Col size="md-6">
             <div className="box">
-            <Jumbotron>
-              <h1>Search City</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="City Name (required)"
-              />
-              <Input
-                value={this.state.state}
-                onChange={this.handleInputChange}
-                name="state"
-                placeholder="State/Province (optional)"
-              />
-              <Input
-                value={this.state.country}
-                onChange={this.handleInputChange}
-                name="country"
-                placeholder="Country (optional)"
-              />
-              <FormBtn
-                disabled={!this.state.name}
-                onClick={this.handleFormSearch}
-              >
-                Search City
-              </FormBtn>
-            </form>
+              <Jumbotron>
+                <h1>Search City</h1>
+              </Jumbotron>
+              <form>
+                <Input
+                  value={this.state.name}
+                  onChange={this.handleInputChange}
+                  name="name"
+                  placeholder="City Name (required)"
+                />
+                <Input
+                  value={this.state.state}
+                  onChange={this.handleInputChange}
+                  name="state"
+                  placeholder="State/Province (optional)"
+                />
+                <Input
+                  value={this.state.country}
+                  onChange={this.handleInputChange}
+                  name="country"
+                  placeholder="Country (optional)"
+                />
+                <FormBtn
+                  disabled={!this.state.name}
+                  onClick={this.handleFormSearch}
+                >
+                  Search City
+                </FormBtn>
+              </form>
             </div>
+          </Col>
+          <Col size="md-6">
+            <Link to="/saved">
+              <button>Saved Cities</button>
+            </Link>
           </Col>
         </Row>
 
         <Row>
           <Col size="md-6 sm-12">
             <div className="results">
-            {this.state.cities.length ? (
-              <table>
-                <thead>
-                  <tr>
-                    <Th>SAVE</Th>
-                    <Th>Name</Th>
-                    <Th>State</Th>
-                    <Th>Country</Th>
-                    <Th>Population</Th>
-                    <Th>Lat</Th>
-                    <Th>Long</Th>
-                  </tr>
-                </thead>
-                <tbody className="table">
-                  {this.state.cities.map(city => (
-                    <Tr
-                      key={city.id}
-                      data_id={city.id}
-                      onClick={() => this.onRowClick(city)}
-                    >
-                      {this.state.savedCities.includes(city.id) ? (
-                        <Td>SAVED</Td>
-                      ) : (
-                        <Td onClick={() => this.onSaveClick(city)}>X</Td>
-                      )}
-                      <Td>{city.name}</Td>
-                      <Td style={{ textAlign: "center" }}>{city.state}</Td>
-                      <Td style={{ textAlign: "center" }}>{city.country}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.population}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.lat}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.long}</Td>
-                    </Tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <h3>No Cities Found</h3>
-            )}
+              {this.state.cities.length ? (
+                <table>
+                  <thead>
+                    <tr>
+                      <Th>SAVE</Th>
+                      <Th>Name</Th>
+                      <Th>State</Th>
+                      <Th>Country</Th>
+                      <Th>Population</Th>
+                      <Th>Lat</Th>
+                      <Th>Long</Th>
+                    </tr>
+                  </thead>
+                  <tbody className="table">
+                    {this.state.cities.map(city => (
+                      <Tr
+                        key={city.id}
+                        data_id={city.id}
+                        onClick={() => this.onRowClick(city)}
+                      >
+                        {this.state.savedCities.includes(city.id) ? (
+                          <Td>SAVED</Td>
+                        ) : (
+                          <Td onClick={() => this.onSaveClick(city)}>X</Td>
+                        )}
+                        <Td>{city.name}</Td>
+                        <Td style={{ textAlign: "center" }}>{city.state}</Td>
+                        <Td style={{ textAlign: "center" }}>{city.country}</Td>
+                        <Td style={{ textAlign: "right" }}>
+                          {city.population}
+                        </Td>
+                        <Td style={{ textAlign: "right" }}>{city.lat}</Td>
+                        <Td style={{ textAlign: "right" }}>{city.long}</Td>
+                      </Tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <h3>No Cities Found</h3>
+              )}
             </div>
           </Col>
         </Row>
