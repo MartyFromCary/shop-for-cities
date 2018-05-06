@@ -73,5 +73,79 @@ module.exports = {
         res.json(restaurants);
       })
       .catch(err => console.log(err));
+  },
+
+  getSchool: (req, res) => {
+    const coordinates = req.params.coordinates.split(":");
+    // , {
+    //   headers: {
+    //     "user-key": googleKey
+    //   }
+    // }
+    axios
+      .get(`${queryUrl}${coordinates[0]},${coordinates[1]}&type=school`)
+      .then(rsp => {
+        console.log(rsp.data.results);
+        const schools = rsp.data.results
+          .map( school  => {
+            var obj = {};
+            obj["name"]= school.name
+            obj["address"]= school.vicinity
+            obj["rating"]= school.rating
+            obj["url"]= `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${school.place_id}`
+            obj["lat"]= school.geometry.location.lat
+            obj["long"]= school.geometry.location.lng
+            // distance: simpleDistance(
+            //   coordinates[0],
+            //   coordinates[1],
+            //   school.geometry.location.lat,
+            //   school.geometry.location.lng
+            // )
+            console.log(obj);
+            return obj;
+          })
+          .sort((a, b) => a.distance - b.distance);
+        console.log(schools);
+        //return schools;
+        res.json(schools);
+      })
+      .catch(err => console.log(err));
+  },
+
+  getHospital: (req, res) => {
+    const coordinates = req.params.coordinates.split(":");
+    // , {
+    //   headers: {
+    //     "user-key": googleKey
+    //   }
+    // }
+    axios
+      .get(`${queryUrl}${coordinates[0]},${coordinates[1]}&type=hospital`)
+      .then(rsp => {
+        console.log(rsp.data.results);
+        const hospitals = rsp.data.results
+          .map( hospital  => {
+            var obj = {};
+            obj["name"]= hospital.name
+            obj["address"]= hospital.vicinity
+            obj["rating"]= hospital.rating
+            obj["url"]= `https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${hospital.place_id}`
+            obj["lat"]= hospital.geometry.location.lat
+            obj["long"]= hospital.geometry.location.lng
+            // distance: simpleDistance(
+            //   coordinates[0],
+            //   coordinates[1],
+            //   hospital.geometry.location.lat,
+            //   hospital.geometry.location.lng
+            // )
+            console.log(obj);
+            return obj;
+          })
+          .sort((a, b) => a.distance - b.distance);
+        console.log(hospitals);
+        //return hospitals;
+        res.json(hospitals);
+      })
+      .catch(err => console.log(err));
   }
 };

@@ -53,7 +53,7 @@ class Saved extends Component {
   onCatClick = category => {
     this.setState({ category });
     // alert(`${category}: ${this.state.city.lat},${this.state.city.long}`);
-
+    // access Google Places API on category button click
     switch (this.state.category) {
       case "Restaurants":
         console.log("Restaurant List");
@@ -64,6 +64,28 @@ class Saved extends Component {
               });
             console.log(this.state.catList);
           })
+          .catch(err => console.log(err));
+        break;
+      case "Schools":
+        console.log("School List");
+          API.schools(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
+            console.log(this.state.catList);
+            })
+          .catch(err => console.log(err));
+        break;
+      case "Hospitals":
+        console.log("Hospital List");
+          API.hospitals(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
+            console.log(this.state.catList);
+            })
           .catch(err => console.log(err));
         break;
       default:
@@ -122,7 +144,7 @@ class Saved extends Component {
                   <tbody>
                     <tr>
                       <Td onClick={() => this.onCatClick("Restaurants")}>Restaurants</Td>
-                      <Td onClick={() => this.onCatClick("Sports")}>Schools</Td>
+                      <Td onClick={() => this.onCatClick("Schools")}>Schools</Td>
                       <Td onClick={() => this.onCatClick("Hospitals")}>Hospitals</Td>
                     </tr>
                   </tbody>
