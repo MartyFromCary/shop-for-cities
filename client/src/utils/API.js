@@ -1,5 +1,5 @@
 import axios from "axios";
-//import fetch from "node-fetch";
+// import fetch from "node-fetch";
 
 export default {
   getUser: data => axios.get("/api/user", data),
@@ -14,13 +14,13 @@ export default {
   
   
 // Anna's code:
-//   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
-//   getWeatherInfo: data => axios.get("/api/weather/" + data.name)
+  // searchCities: loc => axios.get("/api/searchcities/" + loc.name),
+  getWeatherInfo: data => axios.get("/api/weather/" + data.name),
 // end of Anna's code
   
   
   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
   restaurants: (lat, long) =>
-    axios.get(`/api/searchcities/restaurants/${lat}:${long}`)
+    axios.get(`/api/searchcities/restaurants/${lat}:${long}`),
 
 };

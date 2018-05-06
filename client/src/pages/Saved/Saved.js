@@ -9,6 +9,7 @@ import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
 
 import API from "../../utils/API";
+import * as Places from "../../utils/PlacesAPI";
 
 const Th = styled.th`
   border: 1px solid #dddddd;
@@ -51,16 +52,16 @@ class Saved extends Component {
 
   onCatClick = category => {
     this.setState({ category });
-    alert(`${category}: ${this.state.city.lat},${this.state.city.long}`);
+    // alert(`${category}: ${this.state.city.lat},${this.state.city.long}`);
 
     switch (this.state.category) {
       case "Restaurants":
-        console.log("HERE");
-        API.restaurants(this.state.city.lat, this.state.city.long)
-          .then(({ data }) => {
-            this.setState({
-              catList: data
-            });
+        console.log("Restaurant List");
+          API.restaurants(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
             console.log(this.state.catList);
           })
           .catch(err => console.log(err));
@@ -120,13 +121,9 @@ class Saved extends Component {
                 <table>
                   <tbody>
                     <tr>
-                      <Td onClick={() => this.onCatClick("Restaurants")}>
-                        Restaurants
-                      </Td>
-                      <Td onClick={() => this.onCatClick("Sports")}>Sports</Td>
-                      <Td onClick={() => this.onCatClick("Hospitals")}>
-                        Hospitals
-                      </Td>
+                      <Td onClick={() => this.onCatClick("Restaurants")}>Restaurants</Td>
+                      <Td onClick={() => this.onCatClick("Sports")}>Schools</Td>
+                      <Td onClick={() => this.onCatClick("Hospitals")}>Hospitals</Td>
                     </tr>
                   </tbody>
                 </table>
@@ -137,9 +134,10 @@ class Saved extends Component {
                   <h3>
                     {this.state.city.name}, {this.state.city.state}
                   </h3>
-                  <h3>{this.state.city.country}</h3>
                   <h3>
-                    {this.state.city.lat},{this.state.city.long}
+                    {this.state.city.country}</h3>
+                  <h3>
+                    {this.state.city.lat},{this.state.city.lng}
                   </h3>
                 </div>
               </div>
@@ -227,6 +225,7 @@ class Saved extends Component {
             )}
           </Col>
         </Row>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDp_oAh4hQ_MZcAM-mtx5vJW65NCs_cxMA&libraries=places"></script>
       </Container>
     );
   }
