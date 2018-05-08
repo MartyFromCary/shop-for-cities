@@ -38,7 +38,8 @@ module.exports = {
         var city = req.params.loc;
         // add weather API
         const weatherAppID = "bff087f159c4f0f8f86174f72117926c";
-        var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city+ "&units=imperial" + "&APPID=" + weatherAppID;
+        var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city 
+        + "&units=imperial" + "&APPID=" + weatherAppID;
 
         axios(weatherUrl)
         .then(function(json) {
@@ -51,6 +52,9 @@ module.exports = {
                 temp: json.data.main.temp,
                 pressure: json.data.main.pressure,
                 humidity: json.data.main.humidity
+            })
+            callback({
+                
             });
         });
     }
