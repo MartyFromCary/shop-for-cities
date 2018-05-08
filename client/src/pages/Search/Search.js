@@ -86,7 +86,7 @@
         [name]: value
       });
     };
-    
+
 
     handleFormSearch = event => {
       event.preventDefault();
@@ -98,12 +98,17 @@
       })
       .then(res => {
         this.setState({ cities: res.data });
+        console.log(res.data) 
         API.getWeatherInfo({
-          name: this.state.name.trim(),  //Anna to update
+          name: this.state.name.trim(),
         })
         // You would need to define a weather object in your state
     //    .then(res => this.setState({ weather: res.data }))
           .then(res => {
+            const city = this.state.cities[0];
+            city.temp=res.data.temp;
+            city.description=res.data.description;
+            this.setState({cities: [city]});
             console.log(res.data);
             // loop thru this.state.cities and 
             // match the city name to what you search for
