@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 //import { Link } from "react-router-dom";
 
+import Styles from "./Styles.css";
 import Jumbotron from "../../components/Jumbotron";
 import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
@@ -32,7 +33,7 @@ class Login extends Component {
         if (res.status === 200) {
           //alert("User successfully created");
           console.log(res.data);
-          window.location.replace("/search");
+          window.location.replace("/saved");
         } else {
           alert("DB failed");
           console.log(res);
@@ -55,7 +56,7 @@ class Login extends Component {
       .then(href => {
         console.log("href:");
         console.log(href);
-        window.location.replace("/search");
+        window.location.replace("/saved");
       })
       .catch(err => console.log(err));
     // .fail(err => alert(`Error: ${err.responseText}`));
@@ -66,6 +67,7 @@ class Login extends Component {
       <Container fluid>
         <Row>
           <Col size="md-6">
+          <div className="box">
             <Jumbotron>
               <h1>Login or Sign Up</h1>
             </Jumbotron>
@@ -104,6 +106,7 @@ class Login extends Component {
                 Login
               </FormBtn>
             </form>
+            </div>
           </Col>
         </Row>
       </Container>

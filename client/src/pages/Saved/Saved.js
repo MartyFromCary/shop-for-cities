@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import styled from "styled-components";
 
+import Styles from "./Styles.css";
 import Jumbotron from "../../components/Jumbotron";
 import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
 
 import API from "../../utils/API";
+import * as Places from "../../utils/PlacesAPI";
 
 const Th = styled.th`
   border: 1px solid #dddddd;
@@ -31,35 +35,67 @@ class Saved extends Component {
     super(props);
 
     this.state = {
-      user: {cities: []},
-XX: [],
-      id: 0,
-      name: "",
-      state: "",
-      country: "",
-      lat: 0.0,
-      long: 0.0
+      user: { cities: [] },
+      city: {},
+      category: "",
+      catList: []
     };
-    //this.loadUser();
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadUser();
   }
 
   onRowClick = city => {
-    this.setState({
-      id: city.id,
-      name: city.name,
-      state: city.state,
-      country: city.country,
-      lat: city.lat,
-      long: city.long
-    });
+    this.setState({ city });
   };
 
-  onDeleteClick = city => {alert("DELETE");
-   /* 
+  onCatClick = category => {
+    this.setState({ category });
+    // alert(`${category}: ${this.state.city.lat},${this.state.city.long}`);
+    // access Google Places API on category button click
+    switch (this.state.category) {
+      case "Restaurants":
+        console.log("Restaurant List");
+          API.restaurants(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
+            console.log(this.state.catList);
+          })
+          .catch(err => console.log(err));
+        break;
+      case "Schools":
+        console.log("School List");
+          API.schools(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
+            console.log(this.state.catList);
+            })
+          .catch(err => console.log(err));
+        break;
+      case "Hospitals":
+        console.log("Hospital List");
+          API.hospitals(this.state.city.lat, this.state.city.long)
+            .then(({ data }) => {
+              this.setState({
+                catList: data
+              });
+            console.log(this.state.catList);
+            })
+          .catch(err => console.log(err));
+        break;
+      default:
+        break;
+    }
+  };
+
+  onDeleteClick = city => {
+    alert("DELETE");
+    /* 
     API.createSaved(city)
       .then(res => console.log(res.data.name))
       .catch(err => console.log(err));
@@ -98,41 +134,47 @@ XX: [],
   };
 
   render() {
-    console.log(this.state.user);
-    console.log(this.state.user.cities);
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>Saved Cities</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="City Name (required)"
-              />
-              <Input
-                value={this.state.state}
-                onChange={this.handleInputChange}
-                name="state"
-                placeholder="State/Province (optional)"
-              />
-              <Input
-                value={this.state.country}
-                onChange={this.handleInputChange}
-                name="country"
-                placeholder="Country (optional)"
-              />
-              
-            </form>
-          </Col>
+          <Jumbotron className="text-center">
+            {this.state.city.name ? (
+              <div>
+                <table>
+                  <tbody>
+                    <tr>
+                      <Td onClick={() => this.onCatClick("Restaurants")}>Restaurants</Td>
+                      <Td onClick={() => this.onCatClick("Schools")}>Schools</Td>
+                      <Td onClick={() => this.onCatClick("Hospitals")}>Hospitals</Td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div>
+                  <h2>Selected City:</h2>
+                  <br />
+                  <h3>
+                    {this.state.city.name}, {this.state.city.state}
+                  </h3>
+                  <h3>
+                    {this.state.city.country}</h3>
+                  <h3>
+                    {this.state.city.lat},{this.state.city.lng}
+                  </h3>
+                </div>
+              </div>
+            ) : (
+              <h1>{this.state.user.name}'s Saved Cities</h1>
+            )}
+          </Jumbotron>
+
+          <Link to="/search">
+            <button>Search Cities</button>
+          </Link>
         </Row>
 
         <Row>
-          <Col size="md-6 sm-12">
+          <Col size="md-3 sm-6">
             {this.state.user.cities.length ? (
               <table>
                 <thead>
@@ -142,8 +184,6 @@ XX: [],
                     <Th>State</Th>
                     <Th>Country</Th>
                     <Th>Population</Th>
-                    <Th>Lat</Th>
-                    <Th>Long</Th>
                   </tr>
                 </thead>
                 <tbody>
@@ -158,8 +198,46 @@ XX: [],
                       <Td style={{ textAlign: "center" }}>{city.state}</Td>
                       <Td style={{ textAlign: "center" }}>{city.country}</Td>
                       <Td style={{ textAlign: "right" }}>{city.population}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.lat}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.long}</Td>
+                    </Tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <h3>No Saved Cities Found</h3>
+            )}
+          </Col>
+
+          <Col size="md-2 sm-1"> </Col>
+          <Col size="md-3 sm-6">
+            {this.state.catList.length ? (
+              <table>
+                <thead>
+                  <tr>
+                    <Th>Name</Th>
+                    <Th>Address</Th>
+                    <Th>Cuisine</Th>
+                    <Th>Cost for 2</Th>
+                    <Th>Rating</Th>
+                    <Th>Link</Th>
+                    <Th>Distance</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.catList.map(cat => (
+                    <Tr key={cat.url}>
+                      <Td>{cat.name}</Td>
+                      <Td style={{ textAlign: "center" }}>{cat.address}</Td>
+                      <Td style={{ textAlign: "center" }}>{cat.cuisine}</Td>
+                      <Td style={{ textAlign: "right" }}>${cat.cost_for_2}</Td>
+                      <Td style={{ textAlign: "right" }}>{cat.rating}</Td>
+                      <Td style={{ textAlign: "right" }}>
+                        <a href={cat.url} target="_blank">
+                          Link
+                        </a>
+                      </Td>
+                      <Td style={{ textAlign: "right" }}>
+                        {Math.floor(cat.distance * 100) / 100.0}
+                      </Td>
                     </Tr>
                   ))}
                 </tbody>
@@ -169,6 +247,7 @@ XX: [],
             )}
           </Col>
         </Row>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDp_oAh4hQ_MZcAM-mtx5vJW65NCs_cxMA&libraries=places"></script>
       </Container>
     );
   }

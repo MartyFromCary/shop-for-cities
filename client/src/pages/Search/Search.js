@@ -1,5 +1,6 @@
   import React, { Component } from "react";
   import styled from "styled-components";
+  import { Link } from "react-router-dom";
 
   import Jumbotron from "../../components/Jumbotron";
   import { Col, Row, Container } from "../../components/Grid";
@@ -57,6 +58,7 @@
         lat: city.lat,
         long: city.long
       });
+
     };
 
     onSaveClick = city => {
@@ -156,12 +158,13 @@
 };
 */
 
+  render() {
+    return (
+      <Container fluid>
+        <Row>
+          <Col size="md-6">
+            <div className="box">
 
-    render() {
-      return (
-        <Container fluid>
-          <Row>
-            <Col size="md-6">
               <Jumbotron>
                 <h1>Search City</h1>
               </Jumbotron>
@@ -191,11 +194,18 @@
                   Search City
                 </FormBtn>
               </form>
-            </Col>
-          </Row>
+            </div>
+          </Col>
+          <Col size="md-6">
+            <Link to="/saved">
+              <button>Saved Cities</button>
+            </Link>
+          </Col>
+        </Row>
 
-          <Row>
-            <Col size="md-6 sm-12">
+        <Row>
+          <Col size="md-6 sm-12">
+            <div className="results">
               {this.state.cities.length ? (
                 <table>
                   <thead>
@@ -211,7 +221,8 @@
                       <Th>Weather</Th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="table">
+
                     {this.state.cities.map(city => (
                       <Tr
                         key={city.id}
@@ -238,11 +249,12 @@
               ) : (
                 <h3>No Cities Found</h3>
               )}
-            </Col>
-          </Row>
-        </Container>
-      );
-    }
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    );
   }
+}
 
-  export default Search;
+export default Search;
