@@ -38,8 +38,10 @@ module.exports = {
         var city = req.params.loc;
         // add weather API
         const weatherAppID = "bff087f159c4f0f8f86174f72117926c";
-        var weatherUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city 
+        var weatherUrl = `http://api.openweathermap.org/data/2.5/weather?lat=${req.params.lat}&lon=${req.params.long}` 
         + "&units=imperial" + "&APPID=" + weatherAppID;
+
+        console.log(weatherUrl);
 
         axios(weatherUrl)
         .then(function(json) {

@@ -12,5 +12,5 @@ export default {
   deleteSaved: data => axios.delete("/api/cities", data),
   loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
-  getWeatherInfo: data => axios.get("/api/weather/" + data.name)
+  getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long)
 };
