@@ -88,6 +88,7 @@
     };
 
 
+
     handleFormSearch = event => {
       event.preventDefault();
 
@@ -100,8 +101,10 @@
         this.setState({ cities: res.data });
         console.log(res.data) 
         API.getWeatherInfo({
-          name: this.state.name.trim(),
+          lat:res.data[0].lat,
+          long:res.data[0].long,
         })
+        
         // You would need to define a weather object in your state
     //    .then(res => this.setState({ weather: res.data }))
           .then(res => {
