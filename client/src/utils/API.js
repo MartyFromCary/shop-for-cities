@@ -9,19 +9,17 @@ export default {
   //saveUser: user => fetch("/api/user", { method: "POST", body: user }),
   createSaved: data => axios.post("/api/cities", data),
   getSaved: data => axios.get("/api/cities", data),
+  getCity: data => axios.get(`/api/cities/${data}`),
   deleteSaved: data => axios.delete("/api/cities", data),
   loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
   getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long)
-
-  searchCities: loc => 
-    axios.get(`/api/searchcities/${loc.name}`),
+// line 19 duplicate of line 16
+//   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
   restaurants: (lat, long) =>
     axios.get(`/api/searchcities/restaurants/${lat}:${long}`),
-  schools: (lat, long) =>
-    axios.get(`/api/searchcities/schools/${lat}:${long}`),
-  hospitals: (lat, long) =>
-    axios.get(`/api/searchcities/hospitals/${lat}:${long}`)
-
+  schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
+  hospitals: (lat, long, radius) =>
+    axios.get(`/api/searchcities/hospitals/${lat}:${long}:${radius}`)
 };
