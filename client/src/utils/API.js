@@ -13,12 +13,10 @@ export default {
   deleteSaved: data => axios.delete("/api/cities", data),
   loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
 
-  // Anna's code:
-  // searchCities: loc => axios.get("/api/searchcities/" + loc.name),
-  getWeatherInfo: data => axios.get("/api/weather/" + data.name),
-  // end of Anna's code
-
-  searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
+  searchCities: loc => axios.get("/api/searchcities/" + loc.name),
+  getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long)
+// line 19 duplicate of line 16
+//   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
   restaurants: (lat, long) =>
     axios.get(`/api/searchcities/restaurants/${lat}:${long}`),
   schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
