@@ -16,5 +16,15 @@ module.exports = {
           .catch(err => res.status(422).json(err.errmsg))
       )
       .catch(err => res.status(422).json(err.errmsg));
+  },
+
+  get: (req, res) => {
+    console.log(req.params._id);
+    //res.json({ OK: "OK" });
+
+    Cities.findOne({ _id: req.params._id })
+      .populate("notes")
+      .then(user => res.json(user))
+      .catch(err => res.status(422).json(err.errmsg));
   }
 };
