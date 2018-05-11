@@ -30,6 +30,14 @@ const Tr = styled.tr`
   }
 `;
 
+const sygicTagList = {
+  Airports: { tags: "Airport|Airport Terminal", title: "Airports" },
+  Hospitals: { tags: "Hospital", title: "Hospitals" },
+  Worship: { tags: "Place of Worship", title: "Places of Worship" },
+  Community: { tags: "Community Centre", title: "Community Centers" },
+  Starbucks: { tags: "Starbucks", title: "Starbucks" }
+};
+
 class Saved extends Component {
   constructor(props) {
     super(props);
@@ -78,19 +86,22 @@ class Saved extends Component {
     event.preventDefault();
     console.log(this.state);
 
+    if (sygicTagList[this.state.category]) {
+      API.getByTags([
+        sygicTagList[this.state.category].tags,
+        this.state.city.lat,
+        this.state.city.long,
+        this.state.radius
+      ])
+        .then(({ data: catList }) => this.setState({ catList }))
+        .catch(err => console.log(err));
+
+      return;
+    }
+
     switch (this.state.category) {
       case "Restaurants":
         API.restaurants(this.state.city.lat, this.state.city.long)
-          .then(({ data: catList }) => this.setState({ catList }))
-          .catch(err => console.log(err));
-        break;
-
-      case "Hospitals":
-        API.hospitals(
-          this.state.city.lat,
-          this.state.city.long,
-          this.state.radius
-        )
           .then(({ data: catList }) => this.setState({ catList }))
           .catch(err => console.log(err));
         break;
@@ -137,6 +148,9 @@ class Saved extends Component {
     return (
       <div>
         <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
+        <h3 style={{ textAlign: "center" }}>
+          {this.state.catList.length} Results
+        </h3>
         <table>
           <thead>
             <tr>
@@ -173,10 +187,16 @@ class Saved extends Component {
     );
   }
 
-  renderHospitals() {
+  renderByTags() {
     return (
       <div>
-        <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
+        <h3 style={{ textAlign: "center" }}>
+          {sygicTagList[this.state.category].title}
+        </h3>
+        <h3 style={{ textAlign: "center" }}>
+          {this.state.catList.length} Results witin {this.state.radius} Miles
+        </h3>
+
         <table>
           <thead>
             <tr>
@@ -211,6 +231,9 @@ class Saved extends Component {
     return (
       <div>
         <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
+        <h3 style={{ textAlign: "center" }}>
+          {this.state.catList.length} Results
+        </h3>
         <table>
           <thead>
             <tr>
@@ -244,13 +267,16 @@ class Saved extends Component {
   }
 
   renderCatList() {
+    if (sygicTagList[this.state.category]) {
+      return this.renderByTags();
+    }
+
     switch (this.state.category) {
       case "Restaurants":
         return this.renderRestaurants();
-      case "Hospitals":
-        return this.renderHospitals();
       case "Schools":
         return this.renderSchools();
+
       default:
         return <div />;
     }
@@ -301,9 +327,13 @@ class Saved extends Component {
                       <option>Choose</option>
                       <option value="Restaurants">Restaurants</option>
                       <option value="Weather">Weather</option>
-                      <option value="Hospitals">Hospitals</option>
                       <option value="Schools">Schools</option>
                       <option value="Sports">Sports</option>
+                      {Object.keys(sygicTagList).map(category => (
+                        <option key={category} value={category}>
+                          {sygicTagList[category].title}
+                        </option>
+                      ))}
                     </select>
                   </label>
                   <br />
@@ -409,13 +439,7 @@ class Saved extends Component {
 
           <Col size="md-2 sm-1"> </Col>
 
-          <Col size="md-3 sm-6">
-            {this.state.catList.length ? (
-              this.renderCatList()
-            ) : (
-              <h3>No Results</h3>
-            )}
-          </Col>
+          <Col size="md-3 sm-6">{this.renderCatList()}</Col>
         </Row>
       </Container>
     );

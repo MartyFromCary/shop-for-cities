@@ -1,5 +1,6 @@
 const axios = require("axios");
 
+const defaultLimit = 100;
 const deg2rad = deg => deg * (Math.PI / 180);
 
 const simpleDistance = (lat1, long1, lat2, long2) =>
@@ -127,7 +128,6 @@ module.exports = {
     axios
       .get(`${queryUrl}${coordinates[0]},${coordinates[1]}&type=school`)
       .then(rsp => {
-    
         const schools = rsp.data.results
           .map(school => ({
             name: school.name,
@@ -191,36 +191,38 @@ module.exports = {
       .catch(err => console.log(err));
   }
   */
-  getHospital: (req, res) => {
-    const coordinates = req.params.coordinates.split(":");
-    let URL = sygicURLBase;
-    URL += [
-      `area=${coordinates[0]},${coordinates[1]},${Math.floor(
-        coordinates[2] * miles2meters
-      )}`,
-      "tags=Hospital",
-      "limit=200"
-    ].join("&");
-  
+
+  getByTags: (req, res) => {
+    const [tags, lat, long, radius, limit] = req.params.plist.split(":");
+    console.log(tags, lat, long, radius, limit);
+    const URL =
+      sygicURLBase +
+      [
+        `tags=${tags}`,
+        `area=${[lat, long, Math.floor(radius * miles2meters)].join(",")}`,
+        `limit=${limit || defaultLimit}`
+      ].join("&");
+    console.log(URL);
+
     axios
       .get(URL, { headers: { "x-api-key": sygicApiKey } })
-      .then(rsp => {
-        const hospitals = rsp.data.data.places
-          .map(place => ({
-            name: place.name,
-            address: place.name_suffix,
-            url: place.url,
-            distance: simpleDistance(
-              coordinates[0],
-              coordinates[1],
-              place.location.lat,
-              place.location.lng
-            )
-          }))
-          .sort((a, b) => a.distance - b.distance);
-       
-        res.json(hospitals);
-      })
+      .then(rsp =>
+        res.json(
+          rsp.data.data.places
+            .map(place => ({
+              name: place.name,
+              address: place.name_suffix,
+              url: place.url,
+              distance: simpleDistance(
+                lat,
+                long,
+                place.location.lat,
+                place.location.lng
+              )
+            }))
+            .sort((a, b) => a.distance - b.distance)
+        )
+      )
       .catch(err => console.log(err));
   }
 };
