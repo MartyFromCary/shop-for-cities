@@ -10,12 +10,15 @@ body {
 }
 
 .box {
-	background-color: rgba(62,60, 67, .5);
+	background-color:  rgba(62,60, 67, .5);
 	position:relative;
 	right:60px;
-	padding-top: 200px;
-	padding-right:160px;
-	padding-left:160px;
+	margin-top: 40px;
+	padding-top:48px;
+	padding-right:170px;
+	padding-bottom:200px;
+	padding-left:150px;
+	
 }
 
 .results {
@@ -25,16 +28,53 @@ body {
 	right:60px;
 	margin-top: 40px;
 	padding-top:48px;
-	padding-right:160px;
+	padding-right:50px;
 	padding-bottom:200px;
-	padding-left:120px;
+	padding-left:40px;
 }
 
 .table {
-	margin-right:150px;
-	margin-left:50px;
+
+	margin-right:2px;
+	margin-left:2px;
+
 }
 
 tbody tr:hover {
 	color:red;
+}
+
+h3{
+
+	text-align: center;
+}
+
+button,
+.saved-cities-button {
+	margin-top: 40px;
+}
+
+.saved-cities-button {
+
+	color: black;
+	background-color: gray;
+	margin-top: 682px;
+	margin-left: -950px;
+	padding-bottom:30px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	font-weight: bold;
+	font-size: 20px;
+	border-radius: 12px;
+}
+
+.saved-cities-button:hover {
+	cursor: pointer;
+	transform: scale(1.2);
+}
+
+button:hover {
+	cursor: pointer;
+	transform: scale(1.2);
 }

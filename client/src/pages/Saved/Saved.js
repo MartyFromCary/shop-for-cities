@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
-import Styles from "./Styles.css";
+import "./Styles.css";
 import Jumbotron from "../../components/Jumbotron";
 import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
@@ -20,13 +20,15 @@ const Td = styled.td`
   border: 1px solid #dddddd;
   padding: 8px;
   &:hover {
-    background-color: yellow;
+    background-color: white;
+    color: rgba(62,60, 67, .5);
   }
 `;
 
 const Tr = styled.tr`
   &:hover {
-    background-color: yellow;
+    background-color: white;
+    color: rgba(62, 60, 67, .5);
   }
 `;
 
@@ -136,8 +138,7 @@ class Saved extends Component {
   renderRestaurants() {
     return (
       <div>
-        <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
-        <table>
+        <table className="restaurant-table">
           <thead>
             <tr>
               <Th>Name</Th>
@@ -176,8 +177,7 @@ class Saved extends Component {
   renderHospitals() {
     return (
       <div>
-        <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
-        <table>
+        <table className="hospital-table">
           <thead>
             <tr>
               <Th>Name</Th>
@@ -210,8 +210,7 @@ class Saved extends Component {
   renderSchools() {
     return (
       <div>
-        <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
-        <table>
+        <table className="schools-table">
           <thead>
             <tr>
               <Th>Name</Th>
@@ -260,9 +259,9 @@ class Saved extends Component {
     return (
       <Container fluid>
         <Row>
-          <div>
+          <div className="saved-cities-box">
             {this.state.city.name ? (
-              <div>
+              <div className="selected-city">
                 <h1>Selected City:</h1>
                 <form>
                   <Input
@@ -307,9 +306,13 @@ class Saved extends Component {
                     </select>
                   </label>
                   <br />
-                  <FormBtn onClick={this.onSearchCategory}>
+                  <FormBtn className= "search-category-button" onClick={this.onSearchCategory}>
                     Search Category
                   </FormBtn>
+
+                  <Link to="/search">
+                  <button className="search-cities-button">Search Cities</button>
+                 </Link>
                 </form>
               </div>
             ) : (
@@ -317,9 +320,6 @@ class Saved extends Component {
             )}
           </div>
 
-          <Link to="/search">
-            <button>Search Cities</button>
-          </Link>
         </Row>
 
         <Row>
@@ -327,7 +327,8 @@ class Saved extends Component {
             {this.state.user.cities.length ? (
               <div>
                 <h3>Saved Cities</h3>
-                <table>
+                <div className="scroll">
+                <table className="saved-cities">
                   <thead>
                     <tr>
                       <Th>DELETE</Th>
@@ -354,11 +355,13 @@ class Saved extends Component {
                     ))}
                   </tbody>
                 </table>
+                </div>
               </div>
             ) : (
               <h3>No Saved Cities Found</h3>
             )}
             <br />
+              <h3> Saved Notes</h3>
             <form>
               <Input
                 value={this.state.title}
@@ -410,11 +413,14 @@ class Saved extends Component {
           <Col size="md-2 sm-1"> </Col>
 
           <Col size="md-3 sm-6">
+          <h3 className="category-title">{this.state.category}</h3>
+            <div className="scroll-div">
             {this.state.catList.length ? (
               this.renderCatList()
             ) : (
               <h3>No Results</h3>
             )}
+            </div>
           </Col>
         </Row>
       </Container>
