@@ -10,3 +10,121 @@ body {
 	background-position: right;
 	background-size:cover;
 }
+
+.saved-cities-box{
+	background-color:  rgba(62,60, 67, .5);
+	color: white;
+	width: 1600px;
+	margin-left:12px;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	text-align: center;
+	
+
+}
+
+.saved-cities {
+	background-color: rgba(62, 60, 67, .5);
+	color:white;
+	margin-right: 10px;
+}
+
+.saved-cities th {
+	background-color: white;
+	color: rgba(62, 60, 67, .5);
+}
+
+h3 {
+	color: white;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+button:hover {
+	transform: scale(1.2);
+}
+
+.search-cities-button {
+	color: black;
+	font-weight: bold;
+	font-size: 20px;
+	border-radius: 12px;
+	padding-bottom:30px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	background-color: gray;
+	margin-top: 40px;
+	margin-left: -650px;
+}
+
+button {
+	margin-top: 1px;
+}
+
+.search-cities-button:hover {
+	cursor: pointer; 
+	transform: scale(1.1);
+}
+
+.search-category-button:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+
+}
+
+.scroll {
+	position: relative;
+	height: 400px;
+	overflow: auto;
+}
+
+.scroll-div {
+	position: relative;
+	top:-10px;
+	right: 210px;
+	overflow: auto;
+	height: 400px;
+	margin-top:16px;
+	width: 750px;
+}
+
+.selected-city {
+	background-color: rgba(62, 60, 67, .5);
+	border-radius: 3px;
+	width: 60%;
+	margin-top: 50px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 50px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	padding-bottom: 30px;
+
+}
+
+.category-title {
+	text-align: center; 
+	margin-right: 360px;
+	margin-bottom: 30px;
+}
+/*  Results Tables */
+
+.restaurant-table,
+.hospital-table,
+.schools-table {
+	background-color: rgba(62, 60, 67, .5);
+	color:white;
+	text-align: center;
+
+}
+
+.restaurant-table th,
+.hospital-table th,
+.schools-table th {
+	background-color: white;
+	color: rgba(62, 60, 67, .5);
+	width: 100%;
+
+}

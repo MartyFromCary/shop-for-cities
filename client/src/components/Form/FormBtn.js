@@ -4,12 +4,18 @@ export const FormBtn = props => (
   <button
     {...props}
     style={{
-      float: "right",
-      marginBottom: 10,
+      paddingTop: "30px",
+      paddingRight: "30px",
+      paddingLeft: "30px",
+      paddingBottom: "30px",
+      fontWeight: "bold",
+      borderRadius: "12px",
       color: "black",
-      backgroundColor: "tan",
+      backgroundColor: "gray",
       border: "line",
-      fontSize: "24px"
+      borderColor: "white",
+      fontSize: "20px",
+      
     }}
     className="btn button btn-success"
   >

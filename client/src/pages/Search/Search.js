@@ -1,6 +1,7 @@
   import React, { Component } from "react";
   import styled from "styled-components";
   import { Link } from "react-router-dom";
+  import './Styles.css';
 
   import Jumbotron from "../../components/Jumbotron";
   import { Col, Row, Container } from "../../components/Grid";
@@ -198,7 +199,7 @@
           </Col>
           <Col size="md-6">
             <Link to="/saved">
-              <button>Saved Cities</button>
+              <button className="saved-cities-button">Saved Cities</button>
             </Link>
           </Col>
         </Row>
