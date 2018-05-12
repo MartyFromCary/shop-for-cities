@@ -49,32 +49,34 @@ h3{
 	text-align: center;
 }
 
-button,
-.saved-cities-button {
-	margin-top: 40px;
-}
-
-.saved-cities-button {
-
+.searchbutton {
 	color: black;
-	background-color: gray;
-	margin-top: 682px;
-	margin-left: -950px;
+	background-color: white;
+	position:relative;
 	padding-bottom:30px;
 	padding-top: 30px;
 	padding-right: 30px;
 	padding-left: 30px;
-	font-weight: bold;
 	font-size: 20px;
 	border-radius: 12px;
+	right:120px;
+
 }
 
-.saved-cities-button:hover {
-	cursor: pointer;
-	transform: scale(1.2);
-}
+.savedbutton{
 
-button:hover {
-	cursor: pointer;
-	transform: scale(1.2);
-}
+	color: black;
+	background-color: rgba(255,255,255, .5);
+	position:relative;
+	padding-bottom: 30px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	font-size: 20px;
+	border-radius: 12px;
+	top: 625px;
+	right: 350px;
+
+
+
+}	
