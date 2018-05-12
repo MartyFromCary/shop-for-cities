@@ -149,15 +149,7 @@ class Saved extends Component {
   renderRestaurants() {
     return (
       <div>
-// <<<<<<< Annas-branch3
         <table className="restaurant-table">
-// =======
-//         <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
-//         <h3 style={{ textAlign: "center" }}>
-//           {this.state.catList.length} Results
-//         </h3>
-//         <table>
-// >>>>>>> master
           <thead>
             <tr>
               <Th>Name</Th>
@@ -196,18 +188,7 @@ class Saved extends Component {
   renderByTags() {
     return (
       <div>
-// <<<<<<< Annas-branch3
         <table className="hospital-table">
-// =======
-//         <h3 style={{ textAlign: "center" }}>
-//           {sygicTagList[this.state.category].title}
-//         </h3>
-//         <h3 style={{ textAlign: "center" }}>
-//           {this.state.catList.length} Results witin {this.state.radius} Miles
-//         </h3>
-
-//         <table>
-// >>>>>>> master
           <thead>
             <tr>
               <Th>Name</Th>
@@ -240,15 +221,7 @@ class Saved extends Component {
   renderSchools() {
     return (
       <div>
-// <<<<<<< Annas-branch3
         <table className="schools-table">
-// =======
-//         <h3 style={{ textAlign: "center" }}>{this.state.category}</h3>
-//         <h3 style={{ textAlign: "center" }}>
-//           {this.state.catList.length} Results
-//         </h3>
-//         <table>
-// >>>>>>> master
           <thead>
             <tr>
               <Th>Name</Th>
