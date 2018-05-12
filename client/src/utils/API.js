@@ -14,12 +14,13 @@ export default {
   loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
-  getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long),
-// line 19 duplicate of line 16
-//   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
+  getWeatherInfo: data =>
+    axios.get("/api/weather/" + data.lat + "/" + data.long),
+  // line 19 duplicate of line 16
+  //   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
   restaurants: (lat, long) =>
     axios.get(`/api/searchcities/restaurants/${lat}:${long}`),
   schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
-  hospitals: (lat, long, radius) =>
-    axios.get(`/api/searchcities/hospitals/${lat}:${long}:${radius}`)
+
+  getByTags: plist => axios.get("/api/searchcities/tags/" + plist.join(":"))
 };
