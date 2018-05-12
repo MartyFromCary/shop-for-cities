@@ -107,6 +107,25 @@ class Saved extends Component {
           .then(({ data: catList }) => this.setState({ catList }))
           .catch(err => console.log(err));
         break;
+ 
+        // weather
+        case "Weather":
+        console.log(this.state.city)
+        API.getWeatherInfo({
+          lat: this.state.city.lat, 
+          long: this.state.city.long
+        })
+        //.then(({ data: catList }) => this.setState({ catList }))
+          // .then(({ data: catList }) => {
+          
+          //   console.log(this.state.catList);
+          // })
+          .then(weather => {
+            this.setState({ data: weather });
+          })
+          .catch(err => console.log(err));
+        break;
+
 
       case "Schools":
         API.schools(
@@ -184,6 +203,42 @@ class Saved extends Component {
       </div>
     );
   }
+
+
+
+  //weather
+  renderWeather() {
+    return (
+      <div>
+        <table className="weather-table">
+          <thead>
+            <tr>
+              <Th>Temp (F)</Th>
+              <Th>Weather</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* {this.state.catList.map(cat => (
+              <Tr key={cat.url}>
+                <Td>{cat.name}</Td>
+                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
+                <Td style={{ textAlign: "center" }}>{this.state.data.data.description}</Td>
+              </Tr>
+            ))} */}
+            <Tr>
+                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
+                <Td style={{ textAlign: "right" }}>{this.state.data.data.description}</Td>
+              </Tr>
+
+            
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+
+
 
   renderByTags() {
     return (
@@ -263,6 +318,8 @@ class Saved extends Component {
         return this.renderRestaurants();
       case "Schools":
         return this.renderSchools();
+      case "Weather":
+        return this.renderWeather();
 
       default:
         return <div />;
@@ -433,7 +490,9 @@ class Saved extends Component {
           <Col size="md-3 sm-6">
           <h3 className="category-title">{this.state.category}</h3>
             <div className="scroll-div">
-            {this.state.catList.length ? (
+
+            {/*Anna changed line 495 */}
+            {this.state.catList.length || this.state.data ? (
               this.renderCatList()
             ) : (
               <h3>No Results</h3>

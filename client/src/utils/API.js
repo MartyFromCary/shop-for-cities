@@ -14,8 +14,7 @@ export default {
   loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
-  getWeatherInfo: data =>
-    axios.get("/api/weather/" + data.lat + "/" + data.long),
+  getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long),
   // line 19 duplicate of line 16
   //   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
   restaurants: (lat, long) =>
