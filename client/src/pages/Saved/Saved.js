@@ -93,7 +93,8 @@ class Saved extends Component {
     super(props);
 
     this.state = {
-      user: { cities: [] },
+      name: "",
+      cities: [],
       city: { notes: [] },
       title: "",
       body: "",
@@ -177,16 +178,10 @@ class Saved extends Component {
     alert("DELETE");
   };
 
-  loadUser = () => {
+  loadUser = () =>
     API.getUser()
-      .then(({ data: user }) => {
-        this.setState({
-          user
-        });
-        console.log(this.state.user.cities);
-      })
+      .then(({ data }) => this.setState({ name: data.name, cities: data.cities }))
       .catch(err => console.log(err));
-  };
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -340,7 +335,7 @@ class Saved extends Component {
                 </form>
               </div>
             ) : (
-                <h1>{this.state.user.name}'s Saved Cities</h1>
+                <h1>{this.state.name}'s Saved Cities</h1>
               )}
           </div>
 
@@ -348,7 +343,7 @@ class Saved extends Component {
 
         <Row>
           <Col size="md-3 sm-6">
-            {this.state.user.cities.length ? (
+            {this.state.cities.length ? (
               <div>
                 <h3>Saved Cities</h3>
                 <div className="scroll">
@@ -363,7 +358,7 @@ class Saved extends Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.state.user.cities.map(city => (
+                      {this.state.cities.map(city => (
                         <Tr
                           key={city._id}
                           onClick={() => this.onCityClick(city._id)}
