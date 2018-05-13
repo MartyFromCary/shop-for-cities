@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import "./Styles.css";
-import Jumbotron from "../../components/Jumbotron";
 import { Col, Row, Container } from "../../components/Grid";
 import { Input, FormBtn } from "../../components/Form";
 
 import API from "../../utils/API";
-import * as Places from "../../utils/PlacesAPI";
+
 
 const Th = styled.th`
   border: 1px solid #dddddd;
@@ -83,6 +82,7 @@ const sygicTagList = {
   Theaters: { tags: "Theater", title: "Movie Theaters" },
   TownHall: { tags: "Town Hall", title: "Town Hall" },
   TrainStation: { tags: "Train Station", title: "Train Station" },
+  University: { tags: "University", title: "Universities" },
   WheelchairAccessible: { tags: "Wheelchair Accessible", title: "Wheelchair Accessible" },
   Worship: { tags: "Place of Worship", title: "Places of Worship" },
   Zoos: { tags: "Zoo", title: "Zoo" },
@@ -168,19 +168,8 @@ class Saved extends Component {
           .catch(err => console.log(err));
         break;
 
+      default: break;
 
-      case "Schools":
-        API.schools(
-          this.state.city.lat,
-          this.state.city.long,
-          this.state.radius
-        )
-          .then(({ data: catList }) => this.setState({ catList }))
-          .catch(err => console.log(err));
-        break;
-
-      default:
-        break;
     }
   };
 
@@ -274,49 +263,12 @@ class Saved extends Component {
     );
   }
 
-  renderSchools() {
-    return (
-      <div>
-        <table className="schools-table">
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Address</Th>
-              <Th>Rating</Th>
-              <Th>Link</Th>
-              <Th>Distance</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.address}</Td>
-                <Td>{cat.rating}</Td>
-                <Td style={{ textAlign: "right" }}>
-                  <a href={cat.url} target="_blank">
-                    Link
-                  </a>
-                </Td>
-                <Td style={{ textAlign: "right" }}>
-                  {Math.floor(cat.distance * 100) / 100.0}
-                </Td>
-              </Tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
   renderCatList() {
     if (sygicTagList[this.state.category]) {
       return this.renderByTags();
     }
 
     switch (this.state.category) {
-      case "Schools":
-        return this.renderSchools();
       case "Weather":
         return this.renderWeather();
 
@@ -369,7 +321,6 @@ class Saved extends Component {
                     >
                       <option>Choose</option>
                       <option value="Weather">Weather</option>
-                      <option value="Schools">Schools</option>
                       <option value="Sports">Sports</option>
                       {Object.keys(sygicTagList).map(category => (
                         <option key={category} value={category}>
