@@ -42,7 +42,7 @@ const sygicTagList = {
   BicycleShop: { tags: "Bicycle Shop", title: "Bicycle Shop" },
   Bookstore: { tags: "Bookshop", title: "Bookstore" },
   CarDealership: { tags: "Car Dealership", title: "Car Dealership" },
-  CarParts: { tags: "Car Parts Shop", title: "Car Parts Shop"},
+  CarParts: { tags: "Car Parts Shop", title: "Car Parts Shop" },
   CarRepair: { tags: "Car Repair", title: "Car Repair" },
   CarWash: { tags: "Car Wash", title: "Car Wash" },
   Clinics: { tags: "Clinic", title: "Clinics" },
@@ -50,7 +50,7 @@ const sygicTagList = {
   Community: { tags: "Community Centre", title: "Community Centers" },
   ConvenienceStore: { tags: "Convenience Store", title: "Convenience Store" },
   CopyShop: { tags: "Copy Shop", title: "Copy Shop" },
-  CourtBuilding: { tags: "Court Building", title: "Court Building"},
+  CourtBuilding: { tags: "Court Building", title: "Court Building" },
   Dentists: { tags: "Dentist", title: "Dentists" },
   Doctors: { tags: "Doctor", title: "Doctor" },
   DryCleaning: { tags: "Dry Cleaning", title: "Dry Cleaning" },
@@ -60,16 +60,16 @@ const sygicTagList = {
   GasStation: { tags: "Gas Station", title: "Gas Station" },
   Groceries: { tags: "Supermarket", title: "Supermarket" },
   Hairdresser: { tags: "Hairdresser", title: "Hairdresser" },
-  Hardware: { tags: "Hardware", title: "Hardware"},
+  Hardware: { tags: "Hardware", title: "Hardware" },
   Historical: { tags: "Historical", title: "Historical" },
   Hospitals: { tags: "Hospital", title: "Hospitals" },
   Hotel: { tags: "Hotel", title: "Hotel" },
-  IceCream: { tags: "Ice Cream", title: "Ice Cream"},
+  IceCream: { tags: "Ice Cream", title: "Ice Cream" },
   Library: { tags: "Library", title: "Library" },
   MotorcycleShop: { tags: "Motorcycle Shop", title: "Motorcycle Shop" },
   Museums: { tags: "Museum", title: "Museum" },
   Open247: { tags: "Open 24/7", title: "Open 24/7" },
-  OutdoorEquip: { tags: "Outdoor Equipment Shop", title: "Outdoor Equipment Shop"},
+  OutdoorEquip: { tags: "Outdoor Equipment Shop", title: "Outdoor Equipment Shop" },
   Park: { tags: "Park", title: "Park" },
   Parking: { tags: "Parking", title: "Parking" },
   Pawnbroker: { tags: "Pawnbroker", title: "Pawnbroker" },
@@ -78,7 +78,7 @@ const sygicTagList = {
   Playground: { tags: "Playground", title: "Playground" },
   PostOffice: { tags: "Post Office", title: "Post Office" },
   PublicTransport: { tags: "Public Transport", title: "Public Transport" },
-  Restaurants: { tags: "Restaurant", title: "Restaurant"},
+  Restaurants: { tags: "Restaurant", title: "Restaurant" },
   SwimmingPool: { tags: "Swimming Pool|Swimming", title: "Swimming Pool" },
   Theaters: { tags: "Theater", title: "Movie Theaters" },
   TownHall: { tags: "Town Hall", title: "Town Hall" },
@@ -150,22 +150,16 @@ class Saved extends Component {
     }
 
     switch (this.state.category) {
-      case "Restaurants":
-        API.restaurants(this.state.city.lat, this.state.city.long)
-          .then(({ data: catList }) => this.setState({ catList }))
-          .catch(err => console.log(err));
-        break;
- 
-        // weather
-        case "Weather":
+      // weather
+      case "Weather":
         console.log(this.state.city)
         API.getWeatherInfo({
-          lat: this.state.city.lat, 
+          lat: this.state.city.lat,
           long: this.state.city.long
         })
-        //.then(({ data: catList }) => this.setState({ catList }))
+          //.then(({ data: catList }) => this.setState({ catList }))
           // .then(({ data: catList }) => {
-          
+
           //   console.log(this.state.catList);
           // })
           .then(weather => {
@@ -213,47 +207,6 @@ class Saved extends Component {
     });
   };
 
-  renderRestaurants() {
-    return (
-      <div>
-        <table className="restaurant-table">
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Address</Th>
-              <Th>Cuisine</Th>
-              <Th>Cost for 2</Th>
-              <Th>Rating</Th>
-              <Th>Link</Th>
-              <Th>Distance</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.address}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.cuisine}</Td>
-                <Td style={{ textAlign: "right" }}>${cat.cost_for_2}</Td>
-                <Td style={{ textAlign: "right" }}>{cat.rating}</Td>
-                <Td style={{ textAlign: "right" }}>
-                  <a href={cat.url} target="_blank">
-                    Link
-                  </a>
-                </Td>
-                <Td style={{ textAlign: "right" }}>
-                  {Math.floor(cat.distance * 100) / 100.0}
-                </Td>
-              </Tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-
-
   //weather
   renderWeather() {
     return (
@@ -274,11 +227,11 @@ class Saved extends Component {
               </Tr>
             ))} */}
             <Tr>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
-                <Td style={{ textAlign: "right" }}>{this.state.data.data.description}</Td>
-              </Tr>
+              <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
+              <Td style={{ textAlign: "right" }}>{this.state.data.data.description}</Td>
+            </Tr>
 
-            
+
           </tbody>
         </table>
       </div>
@@ -362,8 +315,6 @@ class Saved extends Component {
     }
 
     switch (this.state.category) {
-      case "Restaurants":
-        return this.renderRestaurants();
       case "Schools":
         return this.renderSchools();
       case "Weather":
@@ -384,13 +335,13 @@ class Saved extends Component {
                 <h1>Selected City:</h1>
                 <form>
                   <Input
-                    onChange={() => {}}
+                    onChange={() => { }}
                     value={`${this.state.city.name}, ${
                       this.state.city.state
-                    }, ${this.state.city.country}`}
+                      }, ${this.state.city.country}`}
                   />
                   <Input
-                    onChange={() => {}}
+                    onChange={() => { }}
                     value={`${this.state.city.lat}:${this.state.city.long}`}
                   />
                   <label>
@@ -417,7 +368,6 @@ class Saved extends Component {
                       onChange={this.handleInputChange}
                     >
                       <option>Choose</option>
-                      <option value="Restaurants">Restaurants</option>
                       <option value="Weather">Weather</option>
                       <option value="Schools">Schools</option>
                       <option value="Sports">Sports</option>
@@ -429,18 +379,18 @@ class Saved extends Component {
                     </select>
                   </label>
                   <br />
-                  <FormBtn className= "search-category-button" onClick={this.onSearchCategory}>
+                  <FormBtn className="search-category-button" onClick={this.onSearchCategory}>
                     Search Category
                   </FormBtn>
 
                   <Link to="/search">
-                  <button className="search-cities-button">Search Cities</button>
-                 </Link>
+                    <button className="search-cities-button">Search Cities</button>
+                  </Link>
                 </form>
               </div>
             ) : (
-              <h1>{this.state.user.name}'s Saved Cities</h1>
-            )}
+                <h1>{this.state.user.name}'s Saved Cities</h1>
+              )}
           </div>
 
         </Row>
@@ -451,40 +401,40 @@ class Saved extends Component {
               <div>
                 <h3>Saved Cities</h3>
                 <div className="scroll">
-                <table className="saved-cities">
-                  <thead>
-                    <tr>
-                      <Th>DELETE</Th>
-                      <Th>Name</Th>
-                      <Th>State</Th>
-                      <Th>Country</Th>
-                      <Th>Population</Th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.user.cities.map(city => (
-                      <Tr
-                        key={city._id}
-                        onClick={() => this.onCityClick(city._id)}
-                      >
-                        <Td onClick={() => this.onDeleteClick(city)}>X</Td>
-                        <Td>{city.name}</Td>
-                        <Td style={{ textAlign: "center" }}>{city.state}</Td>
-                        <Td style={{ textAlign: "center" }}>{city.country}</Td>
-                        <Td style={{ textAlign: "right" }}>
-                          {city.population}
-                        </Td>
-                      </Tr>
-                    ))}
-                  </tbody>
-                </table>
+                  <table className="saved-cities">
+                    <thead>
+                      <tr>
+                        <Th>DELETE</Th>
+                        <Th>Name</Th>
+                        <Th>State</Th>
+                        <Th>Country</Th>
+                        <Th>Population</Th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.state.user.cities.map(city => (
+                        <Tr
+                          key={city._id}
+                          onClick={() => this.onCityClick(city._id)}
+                        >
+                          <Td onClick={() => this.onDeleteClick(city)}>X</Td>
+                          <Td>{city.name}</Td>
+                          <Td style={{ textAlign: "center" }}>{city.state}</Td>
+                          <Td style={{ textAlign: "center" }}>{city.country}</Td>
+                          <Td style={{ textAlign: "right" }}>
+                            {city.population}
+                          </Td>
+                        </Tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             ) : (
-              <h3>No Saved Cities Found</h3>
-            )}
+                <h3>No Saved Cities Found</h3>
+              )}
             <br />
-              <h3> Saved Notes</h3>
+            <h3> Saved Notes</h3>
             <form>
               <Input
                 value={this.state.title}
@@ -529,22 +479,22 @@ class Saved extends Component {
                 </table>
               </div>
             ) : (
-              <h3>No Saved Notes</h3>
-            )}
+                <h3>No Saved Notes</h3>
+              )}
           </Col>
 
           <Col size="md-2 sm-1"> </Col>
 
           <Col size="md-3 sm-6">
-          <h3 className="category-title">{this.state.category}</h3>
+            <h3 className="category-title">{this.state.category}</h3>
             <div className="scroll-div">
 
-            {/*Anna changed line 495 */}
-            {this.state.catList.length || this.state.data ? (
-              this.renderCatList()
-            ) : (
-              <h3>No Results</h3>
-            )}
+              {/*Anna changed line 495 */}
+              {this.state.catList.length || this.state.data ? (
+                this.renderCatList()
+              ) : (
+                  <h3>No Results</h3>
+                )}
             </div>
           </Col>
 
