@@ -15,10 +15,7 @@ export default {
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
   getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long),
-  // line 19 duplicate of line 16
-  //   searchCities: loc => axios.get(`/api/searchcities/${loc.name}`),
-  restaurants: (lat, long) =>
-    axios.get(`/api/searchcities/restaurants/${lat}:${long}`),
+ 
   schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
 
   getByTags: plist => axios.get("/api/searchcities/tags/" + plist.join(":"))
