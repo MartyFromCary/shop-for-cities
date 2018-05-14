@@ -95,7 +95,7 @@ class Saved extends Component {
     this.state = {
       name: "",
       cities: [],
-      city: { notes: [] },
+      city: { name: "None Selected", state: "", country: "", lat: "", long: "", notes: [] },
       title: "",
       body: "",
       note: { _id: 0, title: "", body: "" },
@@ -114,6 +114,11 @@ class Saved extends Component {
 
   handleNote = event => {
     event.preventDefault();
+    console.log(this.state);
+    if (!this.state.city._id) { return; }
+    if (this.state.note._id) {
+      console.log("EDIT");
+    } else { console.log("SAVE"); }
     let Obj = {
       title: this.state.title.trim(),
       body: this.state.body.trim()
@@ -127,52 +132,50 @@ class Saved extends Component {
 
   onCityClick = _id =>
     API.getCity(_id)
-      .then(({ data: city }) => this.setState({ city }))
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ city: data });
+        console.log(this.state)
+      })
       .catch(err => console.log(err));
 
-  onNoteClick = _id => console.log(`note click: ${_id}`);
-  onNoteDelete = _id => console.log(`note delete: ${_id}`);
+  onCategoryClick = category => {
+    if (!this.state.city.lat) { return; }
 
-  onSearchCategory = event => {
-    event.preventDefault();
-    console.log(this.state);
-
-    if (sygicTagList[this.state.category]) {
+    if (sygicTagList[category]) {
       API.getByTags([
-        sygicTagList[this.state.category].tags,
+        sygicTagList[category].tags,
         this.state.city.lat,
         this.state.city.long,
         this.state.radius
       ])
-        .then(({ data: catList }) => this.setState({ catList }))
+        .then(({ data }) => {
+          this.setState({ category, catList: data });
+          console.log(this.state);
+        })
         .catch(err => console.log(err));
 
       return;
     }
 
-    switch (this.state.category) {
-      // weather
+    switch (category) {
       case "Weather":
-        console.log(this.state.city)
         API.getWeatherInfo({
           lat: this.state.city.lat,
           long: this.state.city.long
         })
-          //.then(({ data: catList }) => this.setState({ catList }))
-          // .then(({ data: catList }) => {
-
-          //   console.log(this.state.catList);
-          // })
-          .then(weather => {
-            this.setState({ data: weather });
-          })
+          .then(({ data }) => this.setState({ category, catList: [data] }))
           .catch(err => console.log(err));
         break;
 
       default: break;
 
     }
-  };
+
+  }
+
+  onNoteClick = _id => console.log(`note click: ${_id}`);
+  onNoteDelete = _id => console.log(`note delete: ${_id}`);
 
   onDeleteClick = city => {
     alert("DELETE");
@@ -191,39 +194,32 @@ class Saved extends Component {
     });
   };
 
-  //weather
   renderWeather() {
     return (
       <div>
-        <table className="weather-table">
+        <table className="hospital-table">
           <thead>
             <tr>
-              <Th>Temp (F)</Th>
               <Th>Weather</Th>
+              <Th>Temp (F)</Th>
+              <Th>Humidty</Th>
+              <Th>Pressure</Th>
             </tr>
           </thead>
           <tbody>
-            {/* {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.description}</Td>
+            {this.state.catList.map(cat => (
+              <Tr key={cat.temp}>
+                <Td>{cat.main}</Td>
+                <Td style={{ textAlign: "right" }}>{cat.temp}</Td>
+                <Td style={{ textAlign: "right" }}>{cat.humidity}</Td>
+                <Td style={{ textAlign: "right" }}>{cat.pressure}</Td>
               </Tr>
-            ))} */}
-            <Tr>
-              <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
-              <Td style={{ textAlign: "right" }}>{this.state.data.data.description}</Td>
-            </Tr>
-
-
+            ))}
           </tbody>
         </table>
       </div>
     );
   }
-
-
-
 
   renderByTags() {
     return (
@@ -276,21 +272,44 @@ class Saved extends Component {
     return (
       <Container fluid>
         <Row>
-          <div className="saved-cities-box">
-            {this.state.city.name ? (
+          <Link to="/search">
+            <button className="search-cities-button">Search Cities</button>
+          </Link>
+        </Row>
+
+        <Row>
+          <Col size="md-3 sm-6">
+            <h3>Selected City:</h3>
+            <table className="saved-cities">
+              <thead>
+                <tr>
+                  <Th>Name</Th>
+                  <Th>State</Th>
+                  <Th>Country</Th>
+                  <Th>Lat</Th>
+                  <Th>Long</Th>
+                </tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>{this.state.city.name}</Td>
+                  <Td style={{ textAlign: "center" }}>{this.state.city.state}</Td>
+                  <Td style={{ textAlign: "center" }}>{this.state.city.country}</Td>
+                  <Td style={{ textAlign: "right" }}>{this.state.city.lat}</Td>
+                  <Td style={{ textAlign: "right" }}>{this.state.city.long}</Td>
+                </Tr>
+              </tbody>
+            </table>
+          </Col>
+
+          <Col size="md-2 sm-1"> </Col>
+
+
+          <Col size="md-3 sm-6">
+            <div>
               <div className="selected-city">
-                <h1>Selected City:</h1>
+                <h3>Categories:</h3>
                 <form>
-                  <Input
-                    onChange={() => { }}
-                    value={`${this.state.city.name}, ${
-                      this.state.city.state
-                      }, ${this.state.city.country}`}
-                  />
-                  <Input
-                    onChange={() => { }}
-                    value={`${this.state.city.lat}:${this.state.city.long}`}
-                  />
                   <label>
                     Radius:
                     <select
@@ -306,39 +325,34 @@ class Saved extends Component {
                     </select>
                   </label>
 
-                  <br />
-                  <label>
-                    Category:
-                    <select
-                      value={this.state.category}
-                      name="category"
-                      onChange={this.handleInputChange}
-                    >
-                      <option>Choose</option>
-                      <option value="Weather">Weather</option>
-                      <option value="Sports">Sports</option>
-                      {Object.keys(sygicTagList).map(category => (
-                        <option key={category} value={category}>
-                          {sygicTagList[category].title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <br />
-                  <FormBtn className="search-category-button" onClick={this.onSearchCategory}>
-                    Search Category
-                  </FormBtn>
+                  <div className="scroll">
+                    <table className="saved-cities">
+                      <thead>
+                        <tr>
+                          <Th>Category</Th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <Tr onClick={() => this.onCategoryClick("Weather")}>
+                          <Td>Weather</Td>
+                        </Tr>
 
-                  <Link to="/search">
-                    <button className="search-cities-button">Search Cities</button>
-                  </Link>
+                        {Object.keys(sygicTagList).map(category => (
+                          <Tr
+                            key={category}
+                            onClick={() => this.onCategoryClick(category)}
+                          >
+                            <Td>{sygicTagList[category].title}</Td>
+                          </Tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </form>
               </div>
-            ) : (
-                <h1>{this.state.name}'s Saved Cities</h1>
-              )}
-          </div>
 
+            </div>
+          </Col>
         </Row>
 
         <Row>
@@ -395,7 +409,7 @@ class Saved extends Component {
                 placeholder="Body (required)"
               />
               <FormBtn
-                disabled={!(this.state.title && this.state.body)}
+                disabled={!(this.state.city._id && this.state.title && this.state.body)}
                 onClick={this.handleNote}
               >
                 Add/Edit Note
@@ -436,7 +450,7 @@ class Saved extends Component {
             <div className="scroll-div">
 
               {/*Anna changed line 495 */}
-              {this.state.catList.length || this.state.data ? (
+              {this.state.catList.length ? (
                 this.renderCatList()
               ) : (
                   <h3>No Results</h3>
