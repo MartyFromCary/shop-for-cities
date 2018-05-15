@@ -294,9 +294,6 @@ class Saved extends Component {
     let note = this.state.note;
     note[name] = value;
     this.setState({ note: note });
-    console.log(name);
-    console.log(value);
-    console.log(this.state.note);
   };
 
   submitNote = () => {
@@ -305,14 +302,9 @@ class Saved extends Component {
     }
 
     if (this.state.note._id) {
-      console.log("UPDATE");
       API
         .updateNote({ _id: this.state.note._id, title: this.state.note.title, body: this.state.note.body })
-        .then(res => {
-          console.log(res.data);
-          this.loadCity(this.state.city._id);
-          /*this.setState({note: res})*/
-        })
+        .then(res => this.loadCity(this.state.city._id))
         .catch(err => console.log(err));
     } else {
       API
@@ -327,30 +319,40 @@ class Saved extends Component {
   onCategoryClick = category => this.setState({ category });
   onRadiusClick = radius => this.setState({ radius });
 
-  onDeleteClick = city => {
-    alert("DELETE");
-  };
-
-  onNoteDelete = _id => {
-    API
-      .deleteNote({
-        _id: this.state.city._id,
-        notes: this.state.city.notes.map(note => note._id).filter(noteId => noteId !== _id),
-        noteId: _id
-      })
-      .then(res => this.loadCity(this.state.city._id))
-      .catch(err => console.log(err));
-  };
+  onNoteDelete = _id => API.deleteNote({
+    _id: this.state.city._id,
+    notes: this
+      .state
+      .city
+      .notes
+      .map(note => note._id)
+      .filter(noteId => noteId !== _id),
+    noteId: _id
+  })
+    .then(res => this.loadCity(this.state.city._id))
+    .catch(err => console.log(err));
 
   onNoteClick = note => this.setState({ note: note });
+
+  onDeleteClick = city =>
+    /*   let Obj = {
+         _id: city._id,
+         cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
+         notes: city.notes
+       };*/
+    API
+      .deleteSaved({
+        _id: city._id,
+        cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
+        notes: city.notes
+      })
+      .then(res => this.loadUser())
+      .catch(err => console.log(err));
 
   onCityClick = _id => this.loadCity(_id);
 
   searchWithParameters = () => {
-    if (!this.state.city.lat) {
-      return;
-    }
-    if (!this.state.category) {
+    if (!(this.state.city.lat && this.state.category)) {
       return;
     }
 
@@ -362,10 +364,7 @@ class Saved extends Component {
           this.state.city.long,
           this.state.radius
         ])
-        .then(({ data }) => {
-          this.setState({ catList: data });
-          console.log(this.state);
-        })
+        .then(({ data }) => this.setState({ catList: data }))
         .catch(err => console.log(err));
 
       return;
@@ -633,9 +632,7 @@ class Saved extends Component {
               <label style={{
                 color: "black"
               }}>Created</label>
-              <Input
-                value={this.state.note.createdAt}
-                onChange={() => { }} />
+              <Input value={this.state.note.createdAt} onChange={() => { }} />
               <label style={{
                 color: "black"
               }}>Title</label>
@@ -665,8 +662,7 @@ class Saved extends Component {
           <Col size="md-2 sm-1"></Col>
 
           <Col size="md-3 sm-6">
-            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp;
-              Results</h3>
+            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp; Results</h3>
             <div className="scroll-div">
               {this.state.catList.length
                 ? (this.renderCatList())
