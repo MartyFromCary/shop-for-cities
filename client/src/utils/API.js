@@ -22,6 +22,5 @@ export default {
 
   createNote: data => axios.post("/api/notes", data),
   updateNote: data => axios.put("/api/notes", data),
-  deleteNote: data => //axios.delete("/api/notes", data)
-    axios({ method: "DELETE", url: "/api/notes", data: data })
+  deleteNote: data => axios({ method: "DELETE", url: "/api/notes", data: data })
 };
