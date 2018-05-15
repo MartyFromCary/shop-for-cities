@@ -1,8 +1,8 @@
 body {
 	background-image: url("../../Images/homePageBackground.jpg");
 	position:relative;
-	top:100px;
-	left:600px;
+/*	top:100px;
+	left:600px; */
 	max-width: 100%;
     height: auto;
     background-color:#bebdc7;

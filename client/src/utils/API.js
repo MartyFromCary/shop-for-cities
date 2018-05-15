@@ -15,8 +15,11 @@ export default {
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
   getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long),
- 
-  schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
 
-  getByTags: plist => axios.get("/api/searchcities/tags/" + plist.join(":"))
+  //schools: (lat, long) => axios.get(`/api/searchcities/schools/${lat}:${long}`),
+
+  getByTags: plist => axios.get("/api/searchcities/tags/" + plist.join(":")),
+
+
+  createNote: data => axios.post("/api/notes", data)
 };

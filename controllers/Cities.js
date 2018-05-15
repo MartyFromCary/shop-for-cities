@@ -23,8 +23,8 @@ module.exports = {
     //res.json({ OK: "OK" });
 
     Cities.findOne({ _id: req.params._id })
-      .populate("notes")
-      .then(user => res.json(user))
+      .populate("notes", null, null, { sort: { createdAt: -1 } })
+      .then(city => res.json(city))
       .catch(err => res.status(422).json(err.errmsg));
   }
 };
