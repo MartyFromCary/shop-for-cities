@@ -4,12 +4,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import "./Styles.css";
-import Jumbotron from "../../components/Jumbotron";
 import { Col, Row, Container } from "../../components/Grid";
-import { Input, FormBtn } from "../../components/Form";
+import { Input, TextArea } from "../../components/Form";
 
 import API from "../../utils/API";
-import * as Places from "../../utils/PlacesAPI";
 
 const Th = styled.th`
   border: 1px solid #dddddd;
@@ -33,71 +31,258 @@ const Tr = styled.tr`
 `;
 
 const sygicTagList = {
-  Airports: { tags: "Airport|Airport Terminal", title: "Airports" },
-  ATMs: { tags: "ATM", title: "ATM" },
-  Bakery: { tags: "Bakery", title: "Bakery" },
-  Banks: { tags: "Bank", title: "Bank" },
-  Bar: { tags: "Bar", title: "Bar" },
-  BeautySalon: { tags: "Beauty Salon", title: "Beauty Salon" },
-  BicycleShop: { tags: "Bicycle Shop", title: "Bicycle Shop" },
-  Bookstore: { tags: "Bookshop", title: "Bookstore" },
-  CarDealership: { tags: "Car Dealership", title: "Car Dealership" },
-  CarParts: { tags: "Car Parts Shop", title: "Car Parts Shop"},
-  CarRepair: { tags: "Car Repair", title: "Car Repair" },
-  CarWash: { tags: "Car Wash", title: "Car Wash" },
-  Clinics: { tags: "Clinic", title: "Clinics" },
-  Coffee: { tags: "Coffee", title: "Coffee" },
-  Community: { tags: "Community Centre", title: "Community Centers" },
-  ConvenienceStore: { tags: "Convenience Store", title: "Convenience Store" },
-  CopyShop: { tags: "Copy Shop", title: "Copy Shop" },
-  CourtBuilding: { tags: "Court Building", title: "Court Building"},
-  Dentists: { tags: "Dentist", title: "Dentists" },
-  Doctors: { tags: "Doctor", title: "Doctor" },
-  DryCleaning: { tags: "Dry Cleaning", title: "Dry Cleaning" },
-  ElectronicsShop: { tags: "Electronics Shop", title: "Electronics Shop" },
-  FireStation: { tags: "Fire Station", title: "Fire Station" },
-  Fitness: { tags: "Fitness|Fitness Center", title: "Fitness" },
-  GasStation: { tags: "Gas Station", title: "Gas Station" },
-  Groceries: { tags: "Supermarket", title: "Supermarket" },
-  Hairdresser: { tags: "Hairdresser", title: "Hairdresser" },
-  Hardware: { tags: "Hardware", title: "Hardware"},
-  Historical: { tags: "Historical", title: "Historical" },
-  Hospitals: { tags: "Hospital", title: "Hospitals" },
-  Hotel: { tags: "Hotel", title: "Hotel" },
-  IceCream: { tags: "Ice Cream", title: "Ice Cream"},
-  Library: { tags: "Library", title: "Library" },
-  MotorcycleShop: { tags: "Motorcycle Shop", title: "Motorcycle Shop" },
-  Museums: { tags: "Museum", title: "Museum" },
-  Open247: { tags: "Open 24/7", title: "Open 24/7" },
-  OutdoorEquip: { tags: "Outdoor Equipment Shop", title: "Outdoor Equipment Shop"},
-  Park: { tags: "Park", title: "Park" },
-  Parking: { tags: "Parking", title: "Parking" },
-  Pawnbroker: { tags: "Pawnbroker", title: "Pawnbroker" },
-  Pharmacy: { tags: "Pharmacy", title: "Pharmacy" },
-  Pizza: { tags: "Pizza", title: "Pizza" },
-  Playground: { tags: "Playground", title: "Playground" },
-  PostOffice: { tags: "Post Office", title: "Post Office" },
-  PublicTransport: { tags: "Public Transport", title: "Public Transport" },
-  Restaurants: { tags: "Restaurant", title: "Restaurant"},
-  SwimmingPool: { tags: "Swimming Pool|Swimming", title: "Swimming Pool" },
-  Theaters: { tags: "Theater", title: "Movie Theaters" },
-  TownHall: { tags: "Town Hall", title: "Town Hall" },
-  TrainStation: { tags: "Train Station", title: "Train Station" },
-  WheelchairAccessible: { tags: "Wheelchair Accessible", title: "Wheelchair Accessible" },
-  Worship: { tags: "Place of Worship", title: "Places of Worship" },
-  Zoos: { tags: "Zoo", title: "Zoo" },
+  Airports: {
+    tags: "Airport|Airport Terminal",
+    title: "Airports"
+  },
+  ATMs: {
+    tags: "ATM",
+    title: "ATM"
+  },
+  Bakery: {
+    tags: "Bakery",
+    title: "Bakery"
+  },
+  Banks: {
+    tags: "Bank",
+    title: "Bank"
+  },
+  Bar: {
+    tags: "Bar",
+    title: "Bar"
+  },
+  BeautySalon: {
+    tags: "Beauty Salon",
+    title: "Beauty Salon"
+  },
+  BicycleShop: {
+    tags: "Bicycle Shop",
+    title: "Bicycle Shop"
+  },
+  Bookstore: {
+    tags: "Bookshop",
+    title: "Bookstore"
+  },
+  Cafe: {
+    tags: "Cafe",
+    title: "Cafe"
+  },
+  CarDealership: {
+    tags: "Car Dealership",
+    title: "Car Dealership"
+  },
+  CarParts: {
+    tags: "Car Parts Shop",
+    title: "Car Parts Shop"
+  },
+  CarRepair: {
+    tags: "Car Repair",
+    title: "Car Repair"
+  },
+  CarWash: {
+    tags: "Car Wash",
+    title: "Car Wash"
+  },
+  Clinics: {
+    tags: "Clinic",
+    title: "Clinics"
+  },
+
+  Community: {
+    tags: "Community Centre",
+    title: "Community Centers"
+  },
+  ConvenienceStore: {
+    tags: "Convenience Store",
+    title: "Convenience Store"
+  },
+  CopyShop: {
+    tags: "Copy Shop",
+    title: "Copy Shop"
+  },
+  CourtBuilding: {
+    tags: "Court Building",
+    title: "Court Building"
+  },
+  Dentists: {
+    tags: "Dentist",
+    title: "Dentists"
+  },
+  Doctors: {
+    tags: "Doctor",
+    title: "Doctor"
+  },
+  DryCleaning: {
+    tags: "Dry Cleaning",
+    title: "Dry Cleaning"
+  },
+  ElectronicsShop: {
+    tags: "Electronics Shop",
+    title: "Electronics Shop"
+  },
+  FireStation: {
+    tags: "Fire Station",
+    title: "Fire Station"
+  },
+  Fitness: {
+    tags: "Fitness|Fitness Center",
+    title: "Fitness"
+  },
+  GasStation: {
+    tags: "Gas Station",
+    title: "Gas Station"
+  },
+  Groceries: {
+    tags: "Supermarket",
+    title: "Supermarket"
+  },
+  Hairdresser: {
+    tags: "Hairdresser",
+    title: "Hairdresser"
+  },
+  Hardware: {
+    tags: "Hardware",
+    title: "Hardware"
+  },
+  Historical: {
+    tags: "Historical",
+    title: "Historical"
+  },
+  Hospitals: {
+    tags: "Hospital",
+    title: "Hospitals"
+  },
+  Hotel: {
+    tags: "Hotel",
+    title: "Hotel"
+  },
+  IceCream: {
+    tags: "Ice Cream",
+    title: "Ice Cream"
+  },
+  Library: {
+    tags: "Library",
+    title: "Library"
+  },
+  MotorcycleShop: {
+    tags: "Motorcycle Shop",
+    title: "Motorcycle Shop"
+  },
+  Museums: {
+    tags: "Museum",
+    title: "Museum"
+  },
+  Open247: {
+    tags: "Open 24/7",
+    title: "Open 24/7"
+  },
+  OutdoorEquip: {
+    tags: "Outdoor Equipment Shop",
+    title: "Outdoor Equipment Shop"
+  },
+  Park: {
+    tags: "Park",
+    title: "Park"
+  },
+  Parking: {
+    tags: "Parking",
+    title: "Parking"
+  },
+  Pawnbroker: {
+    tags: "Pawnbroker",
+    title: "Pawnbroker"
+  },
+  Pharmacy: {
+    tags: "Pharmacy",
+    title: "Pharmacy"
+  },
+  Pizza: {
+    tags: "Pizza",
+    title: "Pizza"
+  },
+  Playground: {
+    tags: "Playground",
+    title: "Playground"
+  },
+  PostOffice: {
+    tags: "Post Office",
+    title: "Post Office"
+  },
+  PublicTransport: {
+    tags: "Public Transport",
+    title: "Public Transport"
+  },
+  Restaurants: {
+    tags: "Restaurant",
+    title: "Restaurant"
+  },
+  SwimmingPool: {
+    tags: "Swimming Pool|Swimming",
+    title: "Swimming Pool"
+  },
+  Theaters: {
+    tags: "Theater",
+    title: "Movie Theaters"
+  },
+  TownHall: {
+    tags: "Town Hall",
+    title: "Town Hall"
+  },
+  TrainStation: {
+    tags: "Train Station",
+    title: "Train Station"
+  },
+  University: {
+    tags: "University",
+    title: "Universities"
+  },
+  WheelchairAccessible: {
+    tags: "Wheelchair Accessible",
+    title: "Wheelchair Accessible"
+  },
+  Worship: {
+    tags: "Place of Worship",
+    title: "Places of Worship"
+  },
+  Zoos: {
+    tags: "Zoo",
+    title: "Zoo"
+  }
 };
+
+const radiusList = [
+  5,
+  10,
+  15,
+  50,
+  100,
+  150,
+  200,
+  500
+];
 
 class Saved extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      user: { cities: [] },
-      city: { notes: [] },
-      title: "",
-      body: "",
-      note: { _id: 0, title: "", body: "" },
+      name: "",
+      cities: [],
+      city: {
+        name: "",
+        state: "",
+        country: "",
+        lat: "",
+        long: "",
+        notes: []
+      },
+      note: {
+        _id: 0,
+        title: "",
+        body: "",
+        createdAt: "",
+        updatedAt: ""
+      },
       category: "",
       radius: 5,
       catList: []
@@ -106,187 +291,153 @@ class Saved extends Component {
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+    let note = this.state.note;
+    note[name] = value;
+    this.setState({ note: note });
   };
 
-  handleNote = event => {
-    event.preventDefault();
-    let Obj = {
-      title: this.state.title.trim(),
-      body: this.state.body.trim()
-    };
+  submitNote = () => {
+    if (!(this.state.city._id && this.state.note.title && this.state.note.body)) {
+      return;
+    }
 
-    console.log(`title: ${Obj.title}`);
-    console.log(`body: ${Obj.body}`);
+    if (this.state.note._id) {
+      API
+        .updateNote({ _id: this.state.note._id, title: this.state.note.title, body: this.state.note.body })
+        .then(res => this.loadCity(this.state.city._id))
+        .catch(err => console.log(err));
+    } else {
+      API
+        .createNote({ _id: this.state.city._id, title: this.state.note.title, body: this.state.note.body })
+        .then(res => this.loadCity(this.state.city._id))
+        .catch(err => console.log(err));
+    }
   };
 
   componentDidMount = () => this.loadUser();
 
-  onCityClick = _id =>
-    API.getCity(_id)
-      .then(({ data: city }) => this.setState({ city }))
+  onCategoryClick = category => this.setState({ category });
+  onRadiusClick = radius => this.setState({ radius });
+
+  onNoteDelete = _id => API.deleteNote({
+    _id: this.state.city._id,
+    notes: this
+      .state
+      .city
+      .notes
+      .map(note => note._id)
+      .filter(noteId => noteId !== _id),
+    noteId: _id
+  })
+    .then(res => this.loadCity(this.state.city._id))
+    .catch(err => console.log(err));
+
+  onNoteClick = note => this.setState({ note: note });
+
+  onDeleteClick = city =>
+    /*   let Obj = {
+         _id: city._id,
+         cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
+         notes: city.notes
+       };*/
+    API
+      .deleteSaved({
+        _id: city._id,
+        cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
+        notes: city.notes
+      })
+      .then(res => this.loadUser())
       .catch(err => console.log(err));
 
-  onNoteClick = _id => console.log(`note click: ${_id}`);
-  onNoteDelete = _id => console.log(`note delete: ${_id}`);
+  onCityClick = _id => this.loadCity(_id);
 
-  onSearchCategory = event => {
-    event.preventDefault();
-    console.log(this.state);
+  searchWithParameters = () => {
+    if (!(this.state.city.lat && this.state.category)) {
+      return;
+    }
 
     if (sygicTagList[this.state.category]) {
-      API.getByTags([
-        sygicTagList[this.state.category].tags,
-        this.state.city.lat,
-        this.state.city.long,
-        this.state.radius
-      ])
-        .then(({ data: catList }) => this.setState({ catList }))
+      API
+        .getByTags([
+          sygicTagList[this.state.category].tags,
+          this.state.city.lat,
+          this.state.city.long,
+          this.state.radius
+        ])
+        .then(({ data }) => this.setState({ catList: data }))
         .catch(err => console.log(err));
 
       return;
     }
 
     switch (this.state.category) {
-      case "Restaurants":
-        API.restaurants(this.state.city.lat, this.state.city.long)
-          .then(({ data: catList }) => this.setState({ catList }))
-          .catch(err => console.log(err));
-        break;
- 
-        // weather
-        case "Weather":
-        console.log(this.state.city)
-        API.getWeatherInfo({
-          lat: this.state.city.lat, 
-          long: this.state.city.long
-        })
-        //.then(({ data: catList }) => this.setState({ catList }))
-          // .then(({ data: catList }) => {
-          
-          //   console.log(this.state.catList);
-          // })
-          .then(weather => {
-            this.setState({ data: weather });
-          })
-          .catch(err => console.log(err));
-        break;
-
-
-      case "Schools":
-        API.schools(
-          this.state.city.lat,
-          this.state.city.long,
-          this.state.radius
-        )
-          .then(({ data: catList }) => this.setState({ catList }))
+      case "Weather":
+        API
+          .getWeatherInfo({ lat: this.state.city.lat, long: this.state.city.long })
+          .then(({ data }) => this.setState({ catList: [data] }))
           .catch(err => console.log(err));
         break;
 
       default:
         break;
+
     }
   };
 
-  onDeleteClick = city => {
-    alert("DELETE");
-  };
+  loadUser = () => API
+    .getUser()
+    .then(({ data }) => this.setState({ name: data.name, cities: data.cities }))
+    .catch(err => console.log(err));
 
-  loadUser = () => {
-    API.getUser()
-      .then(({ data: user }) => {
-        this.setState({
-          user
-        });
-        console.log(this.state.user.cities);
-      })
-      .catch(err => console.log(err));
-  };
+  loadCity = _id => API
+    .getCity(_id)
+    .then(({ data }) => this.setState({
+      city: data,
+      note: {
+        _id: 0,
+        title: "",
+        body: "",
+        createdAt: "",
+        updatedAt: ""
+      }
+    }))
+    .catch(err => console.log(err));
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    });
-  };
-
-  renderRestaurants() {
-    return (
-      <div>
-        <table className="restaurant-table">
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Address</Th>
-              <Th>Cuisine</Th>
-              <Th>Cost for 2</Th>
-              <Th>Rating</Th>
-              <Th>Link</Th>
-              <Th>Distance</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.address}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.cuisine}</Td>
-                <Td style={{ textAlign: "right" }}>${cat.cost_for_2}</Td>
-                <Td style={{ textAlign: "right" }}>{cat.rating}</Td>
-                <Td style={{ textAlign: "right" }}>
-                  <a href={cat.url} target="_blank">
-                    Link
-                  </a>
-                </Td>
-                <Td style={{ textAlign: "right" }}>
-                  {Math.floor(cat.distance * 100) / 100.0}
-                </Td>
-              </Tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-
-
-  //weather
   renderWeather() {
     return (
       <div>
-        <table className="weather-table">
+        <table className="hospital-table">
           <thead>
             <tr>
-              <Th>Temp (F)</Th>
               <Th>Weather</Th>
+              <Th>Temp (F)</Th>
+              <Th>Humidty</Th>
+              <Th>Pressure</Th>
             </tr>
           </thead>
           <tbody>
-            {/* {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.description}</Td>
-              </Tr>
-            ))} */}
-            <Tr>
-                <Td style={{ textAlign: "center" }}>{this.state.data.data.temp}</Td>
-                <Td style={{ textAlign: "right" }}>{this.state.data.data.description}</Td>
-              </Tr>
-
-            
+            {this
+              .state
+              .catList
+              .map(cat => (
+                <Tr key={cat.temp}>
+                  <Td>{cat.main}</Td>
+                  <Td style={{
+                    textAlign: "right"
+                  }}>{cat.temp}</Td>
+                  <Td style={{
+                    textAlign: "right"
+                  }}>{cat.humidity}</Td>
+                  <Td style={{
+                    textAlign: "right"
+                  }}>{cat.pressure}</Td>
+                </Tr>
+              ))}
           </tbody>
         </table>
       </div>
     );
   }
-
-
-
 
   renderByTags() {
     return (
@@ -301,55 +452,29 @@ class Saved extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.address}</Td>
-                <Td style={{ textAlign: "right" }}>
-                  <a href={cat.url} target="_blank">
-                    Link
-                  </a>
-                </Td>
-                <Td style={{ textAlign: "right" }}>
-                  {Math.floor(cat.distance * 100) / 100.0}
-                </Td>
-              </Tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-  renderSchools() {
-    return (
-      <div>
-        <table className="schools-table">
-          <thead>
-            <tr>
-              <Th>Name</Th>
-              <Th>Address</Th>
-              <Th>Rating</Th>
-              <Th>Link</Th>
-              <Th>Distance</Th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.catList.map(cat => (
-              <Tr key={cat.url}>
-                <Td>{cat.name}</Td>
-                <Td style={{ textAlign: "center" }}>{cat.address}</Td>
-                <Td>{cat.rating}</Td>
-                <Td style={{ textAlign: "right" }}>
-                  <a href={cat.url} target="_blank">
-                    Link
-                  </a>
-                </Td>
-                <Td style={{ textAlign: "right" }}>
-                  {Math.floor(cat.distance * 100) / 100.0}
-                </Td>
-              </Tr>
-            ))}
+            {this
+              .state
+              .catList
+              .map(cat => (
+                <Tr key={cat.url}>
+                  <Td>{cat.name}</Td>
+                  <Td style={{
+                    textAlign: "center"
+                  }}>{cat.address}</Td>
+                  <Td style={{
+                    textAlign: "right"
+                  }}>
+                    <a href={cat.url} target="_blank">
+                      Link
+                    </a>
+                  </Td>
+                  <Td style={{
+                    textAlign: "right"
+                  }}>
+                    {Math.floor(cat.distance * 100) / 100.0}
+                  </Td>
+                </Tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -362,10 +487,6 @@ class Saved extends Component {
     }
 
     switch (this.state.category) {
-      case "Restaurants":
-        return this.renderRestaurants();
-      case "Schools":
-        return this.renderSchools();
       case "Weather":
         return this.renderWeather();
 
@@ -377,174 +498,177 @@ class Saved extends Component {
   render() {
     return (
       <Container fluid>
-        <Row>
-          <div className="saved-cities-box">
-            {this.state.city.name ? (
-              <div className="selected-city">
-                <h1>Selected City:</h1>
-                <form>
-                  <Input
-                    onChange={() => {}}
-                    value={`${this.state.city.name}, ${
-                      this.state.city.state
-                    }, ${this.state.city.country}`}
-                  />
-                  <Input
-                    onChange={() => {}}
-                    value={`${this.state.city.lat}:${this.state.city.long}`}
-                  />
-                  <label>
-                    Radius:
-                    <select
-                      value={this.state.radius}
-                      name="radius"
-                      onChange={this.handleInputChange}
-                    >
-                      <option value="5">5</option>
-                      <option value="10">10</option>
-                      <option value="15">15</option>
-                      <option value="50">50</option>
-                      <option value="100">100</option>
-                    </select>
-                  </label>
 
-                  <br />
-                  <label>
-                    Category:
-                    <select
-                      value={this.state.category}
-                      name="category"
-                      onChange={this.handleInputChange}
-                    >
-                      <option>Choose</option>
-                      <option value="Restaurants">Restaurants</option>
-                      <option value="Weather">Weather</option>
-                      <option value="Schools">Schools</option>
-                      <option value="Sports">Sports</option>
-                      {Object.keys(sygicTagList).map(category => (
-                        <option key={category} value={category}>
-                          {sygicTagList[category].title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <br />
-                  <FormBtn className= "search-category-button" onClick={this.onSearchCategory}>
-                    Search Category
-                  </FormBtn>
-
-                  <Link to="/search">
-                  <button className="search-cities-button">Search Cities</button>
-                 </Link>
-                </form>
-              </div>
-            ) : (
-              <h1>{this.state.user.name}'s Saved Cities</h1>
-            )}
-          </div>
-
-        </Row>
+        <Link to="/search">
+          <button className="search-cities-button">Search Cities</button>
+        </Link>
 
         <Row>
           <Col size="md-3 sm-6">
-            {this.state.user.cities.length ? (
-              <div>
-                <h3>Saved Cities</h3>
-                <div className="scroll">
-                <table className="saved-cities">
-                  <thead>
-                    <tr>
-                      <Th>DELETE</Th>
-                      <Th>Name</Th>
-                      <Th>State</Th>
-                      <Th>Country</Th>
-                      <Th>Population</Th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.user.cities.map(city => (
-                      <Tr
-                        key={city._id}
-                        onClick={() => this.onCityClick(city._id)}
-                      >
-                        <Td onClick={() => this.onDeleteClick(city)}>X</Td>
-                        <Td>{city.name}</Td>
-                        <Td style={{ textAlign: "center" }}>{city.state}</Td>
-                        <Td style={{ textAlign: "center" }}>{city.country}</Td>
-                        <Td style={{ textAlign: "right" }}>
-                          {city.population}
-                        </Td>
-                      </Tr>
-                    ))}
-                  </tbody>
-                </table>
-                </div>
-              </div>
-            ) : (
-              <h3>No Saved Cities Found</h3>
-            )}
-            <br />
-              <h3> Saved Notes</h3>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                value={this.state.body}
-                onChange={this.handleInputChange}
-                name="body"
-                placeholder="Body (required)"
-              />
-              <FormBtn
-                disabled={!(this.state.title && this.state.body)}
-                onClick={this.handleNote}
-              >
-                Add/Edit Note
-              </FormBtn>
-            </form>
-            {this.state.city.notes.length ? (
-              <div>
-                <h3>Saved Notes</h3>
-                <table>
-                  <thead>
-                    <tr>
-                      <Th>DELETE</Th>
-                      <Th>Title</Th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.city.notes.map(note => (
-                      <Tr
-                        key={note._id}
-                        onClick={() => this.onNoteClick(note._id)}
-                      >
+            {this.state.city.name
+              ? <h3>Saved Notes for {this.state.city.name}</h3>
+              : <h3>Saved Notes</h3>
+            }
+
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  {this
+                    .state
+                    .city
+                    .notes
+                    .map(note => (
+                      <Tr key={note._id} onClick={() => this.onNoteClick(note)}>
                         <Td onClick={() => this.onNoteDelete(note._id)}>X</Td>
                         <Td>{note.title}</Td>
                       </Tr>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <h3>No Saved Notes</h3>
-            )}
+                </tbody>
+              </table>
+            </div>
           </Col>
 
-          <Col size="md-2 sm-1"> </Col>
+          <Col size="md-3 sm-6">
+            <h3>Saved Cities</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  {this
+                    .state
+                    .cities
+                    .map(city => (
+                      <Tr key={city._id} onClick={() => this.onCityClick(city._id)}>
+                        <Td onClick={() => this.onDeleteClick(city)}>X</Td>
+                        <Td>{city.name}</Td>
+                        <Td
+                          style={{
+                            textAlign: "center"
+                          }}>{city.state}</Td>
+                        <Td
+                          style={{
+                            textAlign: "center"
+                          }}>{city.country}</Td>
+                      </Tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
+
+          <Col size="md-2 sm-4">
+            <h3>Category</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  <Tr onClick={() => this.onCategoryClick("Weather")}>
+                    <Td>Weather</Td>
+                  </Tr>
+                  {Object
+                    .keys(sygicTagList)
+                    .map(category => (
+                      <Tr key={category} onClick={() => this.onCategoryClick(category)}>
+                        <Td>{sygicTagList[category].title}</Td>
+                      </Tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
+
+          <Col size="md-1 sm-2">
+            <h3>Radius</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  {radiusList.map(radius => (
+                    <Tr key={radius} onClick={() => this.onRadiusClick(radius)}>
+                      <Td>{radius}
+                      </Td>
+                    </Tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
+
+        </Row>
+
+        <Row>
+          <Col size="md-3 sm-6" />
 
           <Col size="md-3 sm-6">
-          <h3 className="category-title">{this.state.category}</h3>
-            <div className="scroll-div">
+            <h3>Selected Parameters</h3>
+            <table className="saved-cities">
+              <thead>
+                <tr>
+                  <Th>City</Th>
+                  <Th>Lat</Th>
+                  <Th>Long</Th>
+                  <Th>Category</Th>
+                  <Th>Radius</Th>
+                </tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>{this.state.city.name}</Td>
+                  <Td>{this.state.city.lat}</Td>
+                  <Td>{this.state.city.long}</Td>
+                  <Td>{this.state.category}</Td>
+                  <Td>{this.state.radius}</Td>
+                </Tr>
+              </tbody>
+            </table>
+            <br />
+            <button onClick={this.searchWithParameters}>Search with Parameters</button>
+          </Col>
 
-            {/*Anna changed line 495 */}
-            {this.state.catList.length || this.state.data ? (
-              this.renderCatList()
-            ) : (
-              <h3>No Results</h3>
-            )}
+        </Row>
+        <Row>
+
+          <Col size="md-3 sm-6">
+
+            <h3>Note</h3>
+            <form>
+              <label style={{
+                color: "black"
+              }}>Created</label>
+              <Input value={this.state.note.createdAt} onChange={() => { }} />
+              <label style={{
+                color: "black"
+              }}>Title</label>
+              <label style={{
+                color: "black"
+              }}>Updated</label>
+              <Input value={this.state.note.updatedAt} onChange={() => { }} />
+              <label style={{
+                color: "black"
+              }}>Title</label>
+              <Input
+                value={this.state.note.title}
+                onChange={this.handleInputChange}
+                name="title" />
+              <label style={{
+                color: "black"
+              }}>Text</label>
+              <TextArea
+                value={this.state.note.body}
+                onChange={this.handleInputChange}
+                name="body" />
+            </form>
+            <button onClick={this.submitNote}>Add/Edit Note</button>
+
+          </Col>
+
+          <Col size="md-2 sm-1"></Col>
+
+          <Col size="md-3 sm-6">
+            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp; Results</h3>
+            <div className="scroll-div">
+              {this.state.catList.length
+                ? (this.renderCatList())
+                : (
+                  <h3>No Results</h3>
+                )}
             </div>
           </Col>
 
