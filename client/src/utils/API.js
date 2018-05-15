@@ -11,7 +11,7 @@ export default {
   getSaved: data => axios.get("/api/cities", data),
   getCity: data => axios.get(`/api/cities/${data}`),
   deleteSaved: data => axios.delete("/api/cities", data),
-  loginUser: data => axios.post("/api/login", data /*{ href: "/search" }*/),
+  loginUser: data => axios.post("/api/login", data/*{ href: "/search" }*/),
 
   searchCities: loc => axios.get("/api/searchcities/" + loc.name),
   getWeatherInfo: data => axios.get("/api/weather/" + data.lat + "/" + data.long),
@@ -20,6 +20,8 @@ export default {
 
   getByTags: plist => axios.get("/api/searchcities/tags/" + plist.join(":")),
 
-
-  createNote: data => axios.post("/api/notes", data)
+  createNote: data => axios.post("/api/notes", data),
+  updateNote: data => axios.put("/api/notes", data),
+  deleteNote: data => //axios.delete("/api/notes", data)
+    axios({ method: "DELETE", url: "/api/notes", data: data })
 };

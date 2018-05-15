@@ -91,8 +91,6 @@ class Search extends Component {
     });
   };
 
-
-
   handleFormSearch = event => {
     event.preventDefault();
 
@@ -101,66 +99,9 @@ class Search extends Component {
       state: this.state.state.trim(),
       country: this.state.country.trim()
     })
-      .then(res => {
-        this.setState({ cities: res.data });
-        console.log(res.data)
-        API.getWeatherInfo({
-          lat: res.data[0].lat,
-          long: res.data[0].long,
-        })
-
-          // You would need to define a weather object in your state
-          //    .then(res => this.setState({ weather: res.data }))
-          .then(res => {
-            const city = this.state.cities[0];
-            city.temp = res.data.temp;
-            city.description = res.data.description;
-            this.setState({ cities: [city] });
-            console.log(res.data);
-            // loop thru this.state.cities and 
-            // match the city name to what you search for
-            // if you find it in the array, put the new temp info in there
-
-          })
-          .catch(err => console.log('ERROR:', err));
-      })
+      .then(res => this.setState({ cities: res.data }))
       .catch(err => console.log(err));
   };
-
-
-  /*
-    .then(res => this.setState({ cities: res.data }))
-    .catch(err => console.log(err));
-  
-};
-
-// Anna to make another call to weatherAPI inside
-// handleFormSearch function to display weather data
-// use getWeatherInfo, not file name because you are 
-//exporting the function
-// may need to make call inside the API.searchCities function.
-/*
-handleFormSearch = event => {
-event.preventDefault();
-
-API.searchCities({
-name: this.state.name.trim(),
-state: this.state.state.trim(),
-country: this.state.country.trim()
-})
-.then(res => {
-  this.setState({ cities: res.data });
-  API.getWeatherInfo({
-    name: this.state.name.trim()
-  })
-  // You would need to define a weather object in your state
-  .then(res => this.setState({ weather: res.data }))
-  .catch(err  => console.log(err));
-})
-.catch(err => console.log(err));
-
-};
-*/
 
   render() {
     return (
@@ -170,7 +111,7 @@ country: this.state.country.trim()
             <button className="search-cities-button">Saved Cities</button>
           </Link>
         </Row>
-        
+
         <Row>
           <Col size="md-6">
             <div className="box">
@@ -225,8 +166,7 @@ country: this.state.country.trim()
                       <Th>Population</Th>
                       <Th>Lat</Th>
                       <Th>Long</Th>
-                      <Th>Temp (F)</Th>
-                      <Th>Weather</Th>
+
                     </tr>
                   </thead>
                   <tbody className="table">
@@ -248,8 +188,7 @@ country: this.state.country.trim()
                         <Td style={{ textAlign: "right" }}>{city.population}</Td>
                         <Td style={{ textAlign: "right" }}>{city.lat}</Td>
                         <Td style={{ textAlign: "right" }}>{city.long}</Td>
-                        <Td style={{ textAlign: "right" }}>{city.temp}</Td>
-                        <Td style={{ textAlign: "right" }}>{city.description}</Td>
+
                       </Tr>
                     ))}
                   </tbody>

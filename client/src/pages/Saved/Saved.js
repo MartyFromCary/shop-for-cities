@@ -63,6 +63,10 @@ const sygicTagList = {
     tags: "Bookshop",
     title: "Bookstore"
   },
+  Cafe: {
+    tags: "Cafe",
+    title: "Cafe"
+  },
   CarDealership: {
     tags: "Car Dealership",
     title: "Car Dealership"
@@ -83,10 +87,7 @@ const sygicTagList = {
     tags: "Clinic",
     title: "Clinics"
   },
-  Coffee: {
-    tags: "Coffee",
-    title: "Coffee"
-  },
+
   Community: {
     tags: "Community Centre",
     title: "Community Centers"
@@ -275,14 +276,13 @@ class Saved extends Component {
         long: "",
         notes: []
       },
-      title: "",
-      body: "",
       note: {
         _id: 0,
         title: "",
-        body: ""
+        body: "",
+        createdAt: "",
+        updatedAt: ""
       },
-      notes: [],
       category: "",
       radius: 5,
       catList: []
@@ -291,60 +291,35 @@ class Saved extends Component {
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  handleNote = event => {
-    event.preventDefault();
-    console.log(this.state);
-    if (!this.state.city._id) {
-      return;
-    }
-    if (this.state.note._id) {
-      console.log("EDIT");
-    } else {
-      console.log("SAVE");
-    }
-    let Obj = {
-      title: this
-        .state
-        .title
-        .trim(),
-      body: this
-        .state
-        .body
-        .trim()
-    };
-
-    console.log(`title: ${Obj.title}`);
-    console.log(`body: ${Obj.body}`);
+    let note = this.state.note;
+    note[name] = value;
+    this.setState({ note: note });
+    console.log(name);
+    console.log(value);
+    console.log(this.state.note);
   };
 
   submitNote = () => {
-
-    if (!(this.state.city._id && this.state.title && this.state.body)) {
+    if (!(this.state.city._id && this.state.note.title && this.state.note.body)) {
       return;
     }
-    if (this.state.note._id) {
-      console.log("EDIT");
-    } else {
-      console.log("SAVE");
-    }
-    let Obj = {
-      _id: this.state.city._id,
-      title: this.state.title,
-      body: this.state.body
-    };
-    console.log(Obj);
-    console.log(this.state);
-    API
-      .createNote(Obj)
-      .then(res => {
-        console.log(res.data);
-        this.loadCity(this.state.city._id)
-      })
-      .catch(err => console.log(err));
 
+    if (this.state.note._id) {
+      console.log("UPDATE");
+      API
+        .updateNote({ _id: this.state.note._id, title: this.state.note.title, body: this.state.note.body })
+        .then(res => {
+          console.log(res.data);
+          this.loadCity(this.state.city._id);
+          /*this.setState({note: res})*/
+        })
+        .catch(err => console.log(err));
+    } else {
+      API
+        .createNote({ _id: this.state.city._id, title: this.state.note.title, body: this.state.note.body })
+        .then(res => this.loadCity(this.state.city._id))
+        .catch(err => console.log(err));
+    }
   };
 
   componentDidMount = () => this.loadUser();
@@ -352,13 +327,23 @@ class Saved extends Component {
   onCategoryClick = category => this.setState({ category });
   onRadiusClick = radius => this.setState({ radius });
 
-  onNoteDelete = _id => console.log(`note delete: ${_id}`);
-
   onDeleteClick = city => {
     alert("DELETE");
   };
 
-  onNoteClick = note => { this.setState({ note: note }); console.log(this.state) };
+  onNoteDelete = _id => {
+    API
+      .deleteNote({
+        _id: this.state.city._id,
+        notes: this.state.city.notes.map(note => note._id).filter(noteId => noteId !== _id),
+        noteId: _id
+      })
+      .then(res => this.loadCity(this.state.city._id))
+      .catch(err => console.log(err));
+  };
+
+  onNoteClick = note => this.setState({ note: note });
+
   onCityClick = _id => this.loadCity(_id);
 
   searchWithParameters = () => {
@@ -405,23 +390,19 @@ class Saved extends Component {
     .then(({ data }) => this.setState({ name: data.name, cities: data.cities }))
     .catch(err => console.log(err));
 
-  loadCity = (_id) => {
-    console.log("loadCity");
-    API
-      .getCity(_id)
-      .then(({ data }) => {
-        console.log(data);
-        this.setState({ city: data });
-        console.log(this.state)
-      })
-      .catch(err => console.log(err));
-  };
-
-  handleInputChange = event => {
-    const { name, value } = event.target;
-
-    this.setState({ [name]: value });
-  };
+  loadCity = _id => API
+    .getCity(_id)
+    .then(({ data }) => this.setState({
+      city: data,
+      note: {
+        _id: 0,
+        title: "",
+        body: "",
+        createdAt: "",
+        updatedAt: ""
+      }
+    }))
+    .catch(err => console.log(err));
 
   renderWeather() {
     return (
@@ -517,199 +498,186 @@ class Saved extends Component {
 
   render() {
     return (
+      <Container fluid>
 
-      <div>
+        <Link to="/search">
+          <button className="search-cities-button">Search Cities</button>
+        </Link>
+
         <Row>
-          <Link to="/search">
-            <button className="search-cities-button">Search Cities</button>
-          </Link>
-        </Row>
+          <Col size="md-3 sm-6">
+            {this.state.city.name
+              ? <h3>Saved Notes for {this.state.city.name}</h3>
+              : <h3>Saved Notes</h3>
+            }
 
-        <Container fluid>
-
-          <Row>
-            <Col size="md-3 sm-6">
-              {this.state.city.name ? <h3>Notes for {this.state.city.name}</h3>
-                : <h3>Saved Notes</h3>
-              }
-
-              <div className="scroll">
-                <table className="saved-cities">
-                  <tbody>
-                    {this.state.city.notes.map(note => (
-                      <Tr key={note._id} onClick={() => this.onNoteClick(note)}>
-                        <Td onClick={() => this.onDeleteClick(note._id)}>X</Td>
-                        <Td>{note.title}</Td>
-                        <Td>{note.createdAt}</Td>
-                      </Tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Col>
-
-            <Col size="md-3 sm-6">
-              <h3>Saved Cities</h3>
-              <div className="scroll">
-                <table className="saved-cities">
-                  <tbody>
-                    {this
-                      .state
-                      .cities
-                      .map(city => (
-                        <Tr key={city._id} onClick={() => this.onCityClick(city._id)}>
-                          <Td onClick={() => this.onDeleteClick(city)}>X</Td>
-                          <Td>{city.name}</Td>
-                          <Td
-                            style={{
-                              textAlign: "center"
-                            }}>{city.state}</Td>
-                          <Td
-                            style={{
-                              textAlign: "center"
-                            }}>{city.country}</Td>
-                        </Tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            </Col>
-
-            <Col size="md-2 sm-4">
-              <h3>Category</h3>
-              <div className="scroll">
-                <table className="saved-cities">
-                  <tbody>
-                    <Tr onClick={() => this.onCategoryClick("Weather")}>
-                      <Td>Weather</Td>
-                    </Tr>
-                    {Object
-                      .keys(sygicTagList)
-                      .map(category => (
-                        <Tr key={category} onClick={() => this.onCategoryClick(category)}>
-                          <Td>{sygicTagList[category].title}</Td>
-                        </Tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
-            </Col>
-
-            <Col size="md-1 sm-2">
-              <h3>Radius</h3>
-              <div className="scroll">
-                <table className="saved-cities">
-                  <tbody>
-                    {radiusList.map(radius => (
-                      <Tr key={radius} onClick={() => this.onRadiusClick(radius)}>
-                        <Td>{radius}
-                        </Td>
-                      </Tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Col>
-
-          </Row>
-
-          <Row>
-            <Col size="md-3 sm-6" />
-
-            <Col size="md-3 sm-6">
-              <h3>Selected Parameters</h3>
+            <div className="scroll">
               <table className="saved-cities">
-                <thead>
-                  <tr>
-                    <Th>City</Th>
-                    <Th>Lat</Th>
-                    <Th>Long</Th>
-                    <Th>Category</Th>
-                    <Th>Radius</Th>
-                  </tr>
-                </thead>
                 <tbody>
-                  <Tr>
-                    <Td>{this.state.city.name}</Td>
-                    <Td>{this.state.city.lat}</Td>
-                    <Td>{this.state.city.long}</Td>
-                    <Td>{this.state.category}</Td>
-                    <Td>{this.state.radius}</Td>
-                  </Tr>
+                  {this
+                    .state
+                    .city
+                    .notes
+                    .map(note => (
+                      <Tr key={note._id} onClick={() => this.onNoteClick(note)}>
+                        <Td onClick={() => this.onNoteDelete(note._id)}>X</Td>
+                        <Td>{note.title}</Td>
+                      </Tr>
+                    ))}
                 </tbody>
               </table>
-              <br />
-              <button onClick={this.searchWithParameters}>Search with Parameters</button>
-            </Col>
+            </div>
+          </Col>
 
-          </Row>
-          <Row>
+          <Col size="md-3 sm-6">
+            <h3>Saved Cities</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  {this
+                    .state
+                    .cities
+                    .map(city => (
+                      <Tr key={city._id} onClick={() => this.onCityClick(city._id)}>
+                        <Td onClick={() => this.onDeleteClick(city)}>X</Td>
+                        <Td>{city.name}</Td>
+                        <Td
+                          style={{
+                            textAlign: "center"
+                          }}>{city.state}</Td>
+                        <Td
+                          style={{
+                            textAlign: "center"
+                          }}>{city.country}</Td>
+                      </Tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
 
-            <Col size="md-3 sm-6">
+          <Col size="md-2 sm-4">
+            <h3>Category</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  <Tr onClick={() => this.onCategoryClick("Weather")}>
+                    <Td>Weather</Td>
+                  </Tr>
+                  {Object
+                    .keys(sygicTagList)
+                    .map(category => (
+                      <Tr key={category} onClick={() => this.onCategoryClick(category)}>
+                        <Td>{sygicTagList[category].title}</Td>
+                      </Tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
 
-              <h3>Saved Notes</h3>
-              <form>
-                <Input
-                  value={this.state.title}
-                  onChange={this.handleInputChange}
-                  name="title"
-                  placeholder="Title" />
-                <TextArea
-                  value={this.state.body}
-                  onChange={this.handleInputChange}
-                  name="body"
-                  placeholder="Body" />
-              </form>
-              <button onClick={this.submitNote}>Add/Edit Note</button>
+          <Col size="md-1 sm-2">
+            <h3>Radius</h3>
+            <div className="scroll">
+              <table className="saved-cities">
+                <tbody>
+                  {radiusList.map(radius => (
+                    <Tr key={radius} onClick={() => this.onRadiusClick(radius)}>
+                      <Td>{radius}
+                      </Td>
+                    </Tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Col>
 
-              {this.state.city.notes.length
-                ? (
-                  <div>
-                    <h3>Saved Notes</h3>
-                    <table>
-                      <thead>
-                        <tr>
-                          <Th>DELETE</Th>
-                          <Th>Title</Th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this
-                          .state
-                          .city
-                          .notes
-                          .map(note => (
-                            <Tr key={note._id} onClick={() => this.onNoteClick(note._id)}>
-                              <Td onClick={() => this.onNoteDelete(note._id)}>X</Td>
-                              <Td>{note.title}</Td>
-                            </Tr>
-                          ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )
+        </Row>
+
+        <Row>
+          <Col size="md-3 sm-6" />
+
+          <Col size="md-3 sm-6">
+            <h3>Selected Parameters</h3>
+            <table className="saved-cities">
+              <thead>
+                <tr>
+                  <Th>City</Th>
+                  <Th>Lat</Th>
+                  <Th>Long</Th>
+                  <Th>Category</Th>
+                  <Th>Radius</Th>
+                </tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>{this.state.city.name}</Td>
+                  <Td>{this.state.city.lat}</Td>
+                  <Td>{this.state.city.long}</Td>
+                  <Td>{this.state.category}</Td>
+                  <Td>{this.state.radius}</Td>
+                </Tr>
+              </tbody>
+            </table>
+            <br />
+            <button onClick={this.searchWithParameters}>Search with Parameters</button>
+          </Col>
+
+        </Row>
+        <Row>
+
+          <Col size="md-3 sm-6">
+
+            <h3>Note</h3>
+            <form>
+              <label style={{
+                color: "black"
+              }}>Created</label>
+              <Input
+                value={this.state.note.createdAt}
+                onChange={() => { }} />
+              <label style={{
+                color: "black"
+              }}>Title</label>
+              <label style={{
+                color: "black"
+              }}>Updated</label>
+              <Input value={this.state.note.updatedAt} onChange={() => { }} />
+              <label style={{
+                color: "black"
+              }}>Title</label>
+              <Input
+                value={this.state.note.title}
+                onChange={this.handleInputChange}
+                name="title" />
+              <label style={{
+                color: "black"
+              }}>Text</label>
+              <TextArea
+                value={this.state.note.body}
+                onChange={this.handleInputChange}
+                name="body" />
+            </form>
+            <button onClick={this.submitNote}>Add/Edit Note</button>
+
+          </Col>
+
+          <Col size="md-2 sm-1"></Col>
+
+          <Col size="md-3 sm-6">
+            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp;
+              Results</h3>
+            <div className="scroll-div">
+              {this.state.catList.length
+                ? (this.renderCatList())
                 : (
-                  <h3>No Saved Notes</h3>
+                  <h3>No Results</h3>
                 )}
-            </Col>
+            </div>
+          </Col>
 
-            <Col size="md-2 sm-1"></Col>
-
-            <Col size="md-3 sm-6">
-              <h3 className="category-title">{this.state.catList.length}
-                Results</h3>
-              <div className="scroll-div">
-                {this.state.catList.length
-                  ? (this.renderCatList())
-                  : (
-                    <h3>No Results</h3>
-                  )}
-              </div>
-            </Col>
-
-          </Row>
-        </Container>
-      </div>
+        </Row>
+      </Container>
     );
   }
 }
