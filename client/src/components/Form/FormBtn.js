@@ -5,11 +5,13 @@ export const FormBtn = props => (
     {...props}
     style={{
       float: "right",
-      marginBottom: 10,
+      marginBottom: 20,
+      marginRight: 16,
       color: "black",
       backgroundColor: "white",
       border: "line",
-      fontSize: "24px",
+      borderColor: "white",
+      fontSize: 24,
 
     }}
     className="btn button btn-success searchbutton"

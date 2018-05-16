@@ -379,9 +379,13 @@ class Saved extends Component {
       <Container fluid>
         <Row>
           <div className="saved-cities-box">
+          <Link to="/search">
+              <button className="search-cities-button">Search Cities</button>
+          </Link>
             {this.state.city.name ? (
               <div className="selected-city">
                 <h1>Selected City:</h1>
+              
                 <form>
                   <Input
                     onChange={() => {}}
@@ -432,10 +436,6 @@ class Saved extends Component {
                   <FormBtn className= "search-category-button" onClick={this.onSearchCategory}>
                     Search Category
                   </FormBtn>
-
-                  <Link to="/search">
-                  <button className="search-cities-button">Search Cities</button>
-                 </Link>
                 </form>
               </div>
             ) : (
