@@ -19,6 +19,7 @@ body {
 	padding-top: 100px;
 	padding-bottom: 100px;
 	text-align: center;
+	border-radius: 12px;
 	
 
 }
@@ -53,13 +54,16 @@ button:hover {
 	padding-top: 30px;
 	padding-right: 30px;
 	padding-left: 30px;
-	background-color: gray;
-	margin-top: 40px;
-	margin-left: -650px;
+	background-color: rgba(255,255,255,.5);
+	margin-left: 20px;
 }
 
 button {
 	margin-top: 1px;
+}
+
+.search-category-button {
+	background-color: rgba(255,255,255,.5);
 }
 
 .search-cities-button:hover {
@@ -70,7 +74,6 @@ button {
 .search-category-button:hover {
 	cursor: pointer;
 	transform: scale(1.1);
-
 }
 
 .scroll {
@@ -100,7 +103,8 @@ button {
 	padding-top: 30px;
 	padding-right: 30px;
 	padding-left: 30px;
-	padding-bottom: 30px;
+	padding-bottom: 160px;
+	border-radius: 12px;
 
 }
 
@@ -113,7 +117,8 @@ button {
 
 .restaurant-table,
 .hospital-table,
-.schools-table {
+.schools-table,
+.weather-table {
 	background-color: rgba(62, 60, 67, .5);
 	color:white;
 	text-align: center;
@@ -122,9 +127,11 @@ button {
 
 .restaurant-table th,
 .hospital-table th,
-.schools-table th {
+.schools-table th ,
+.weather-table th{
 	background-color: white;
 	color: rgba(62, 60, 67, .5);
-	width: 100%;
+	width: 110px;
+	
 
 }

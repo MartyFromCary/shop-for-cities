@@ -498,6 +498,71 @@ class Saved extends Component {
   render() {
     return (
       <Container fluid>
+        <Row>
+          <div className="saved-cities-box">
+          <Link to="/search">
+              <button className="search-cities-button">Search Cities</button>
+          </Link>
+            {this.state.city.name ? (
+              <div className="selected-city">
+                <h1>Selected City:</h1>
+              
+                <form>
+                  <Input
+                    onChange={() => {}}
+                    value={`${this.state.city.name}, ${
+                      this.state.city.state
+                    }, ${this.state.city.country}`}
+                  />
+                  <Input
+                    onChange={() => {}}
+                    value={`${this.state.city.lat}:${this.state.city.long}`}
+                  />
+                  <label>
+                    Radius:
+                    <select
+                      value={this.state.radius}
+                      name="radius"
+                      onChange={this.handleInputChange}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </label>
+
+                  <br />
+                  <label>
+                    Category:
+                    <select
+                      value={this.state.category}
+                      name="category"
+                      onChange={this.handleInputChange}
+                    >
+                      <option>Choose</option>
+                      <option value="Restaurants">Restaurants</option>
+                      <option value="Weather">Weather</option>
+                      <option value="Schools">Schools</option>
+                      <option value="Sports">Sports</option>
+                      {Object.keys(sygicTagList).map(category => (
+                        <option key={category} value={category}>
+                          {sygicTagList[category].title}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <br />
+                  <FormBtn className= "search-category-button" onClick={this.onSearchCategory}>
+                    Search Category
+                  </FormBtn>
+                </form>
+              </div>
+            ) : (
+              <h1>{this.state.user.name}'s Saved Cities</h1>
+            )}
+          </div>
 
         <Link to="/search">
           <button className="search-cities-button">Search Cities</button>

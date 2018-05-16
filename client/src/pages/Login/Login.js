@@ -96,6 +96,7 @@ class Login extends Component {
                   !(this.state.name && this.state.email && this.state.password)
                 }
                 onClick={this.handleFormSignUp}
+                className="sign-up-button"
               >
                 Sign Up
               </FormBtn>
