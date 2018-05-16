@@ -91,8 +91,6 @@ class Search extends Component {
     });
   };
 
-
-
   handleFormSearch = event => {
     event.preventDefault();
 
@@ -101,165 +99,109 @@ class Search extends Component {
       state: this.state.state.trim(),
       country: this.state.country.trim()
     })
-    .then(res => {
-      this.setState({ cities: res.data });
-      console.log(res.data) 
-      API.getWeatherInfo({
-        lat:res.data[0].lat,
-        long:res.data[0].long,
-      })
-      
-      // You would need to define a weather object in your state
-  //    .then(res => this.setState({ weather: res.data }))
-        .then(res => {
-          const city = this.state.cities[0];
-          city.temp=res.data.temp;
-          city.description=res.data.description;
-          this.setState({cities: [city]});
-          console.log(res.data);
-          // loop thru this.state.cities and 
-          // match the city name to what you search for
-          // if you find it in the array, put the new temp info in there
-
-        })
-  .catch(err  => console.log('ERROR:', err));
-    })
-    .catch(err => console.log(err));
-};
-
-
-    /*
       .then(res => this.setState({ cities: res.data }))
       .catch(err => console.log(err));
-    
   };
 
-  // Anna to make another call to weatherAPI inside
-  // handleFormSearch function to display weather data
-  // use getWeatherInfo, not file name because you are 
-  //exporting the function
-  // may need to make call inside the API.searchCities function.
-  /*
-  handleFormSearch = event => {
-event.preventDefault();
-
-API.searchCities({
-  name: this.state.name.trim(),
-  state: this.state.state.trim(),
-  country: this.state.country.trim()
-})
-  .then(res => {
-    this.setState({ cities: res.data });
-    API.getWeatherInfo({
-      name: this.state.name.trim()
-    })
-    // You would need to define a weather object in your state
-    .then(res => this.setState({ weather: res.data }))
-    .catch(err  => console.log(err));
-  })
-  .catch(err => console.log(err));
-
-};
-*/
-
-render() {
-  return (
-    <Container fluid>
-      <Row>
-        <Col size="md-6">
-          <div className="box">
-
-            <Jumbotron>
-              <h1>Search City</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.name}
-                onChange={this.handleInputChange}
-                name="name"
-                placeholder="City Name (required)"
-              />
-              <Input
-                value={this.state.state}
-                onChange={this.handleInputChange}
-                name="state"
-                placeholder="State/Province (optional)"
-              />
-              <Input
-                value={this.state.country}
-                onChange={this.handleInputChange}
-                name="country"
-                placeholder="Country (optional)"
-              />
-              <FormBtn 
-                className="searchbutton"
-                disabled={!this.state.name}
-                onClick={this.handleFormSearch}
-              >
-                Search City
-              </FormBtn>
-            </form>
-          </div>
-        </Col>
-        <Col size="md-6">
+  render() {
+    return (
+      <Container fluid>
+        <Row>
           <Link to="/saved">
-            <button className="savedbutton">Saved Cities</button>
+            <button className="search-cities-button">Saved Cities</button>
           </Link>
-        </Col>
-      </Row>
+        </Row>
 
-      <Row>
-        <Col size="md-6 sm-12">
-          <div className="results">
-            {this.state.cities.length ? (
-              <table>
-                <thead>
-                  <tr>
-                    <Th>SAVE</Th>
-                    <Th>Name</Th>
-                    <Th>State</Th>
-                    <Th>Country</Th>
-                    <Th>Population</Th>
-                    <Th>Lat</Th>
-                    <Th>Long</Th>
-                    <Th>Temp (F)</Th>
-                    <Th>Weather</Th>
-                  </tr>
-                </thead>
-                <tbody className="table">
+        <Row>
+          <Col size="md-6">
+            <div className="box">
 
-                  {this.state.cities.map(city => (
-                    <Tr
-                      key={city.id}
-                      data_id={city.id}
-                      onClick={() => this.onRowClick(city)}
-                    >
-                      {this.state.savedCities.includes(city.id) ? (
-                        <Td>SAVED</Td>
-                      ) : (
-                        <Td onClick={() => this.onSaveClick(city)}>X</Td>
-                      )}
-                      <Td>{city.name}</Td>
-                      <Td style={{ textAlign: "center" }}>{city.state}</Td>
-                      <Td style={{ textAlign: "center" }}>{city.country}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.population}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.lat}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.long}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.temp}</Td>
-                      <Td style={{ textAlign: "right" }}>{city.description}</Td>
-                    </Tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <h3>No Cities Found</h3>
-            )}
-          </div>
-        </Col>
-      </Row>
-    </Container>
-  );
-}
+              <Jumbotron>
+                <h1>Search City</h1>
+              </Jumbotron>
+              <form>
+                <Input
+                  value={this.state.name}
+                  onChange={this.handleInputChange}
+                  name="name"
+                  placeholder="City Name (required)"
+                />
+                <Input
+                  value={this.state.state}
+                  onChange={this.handleInputChange}
+                  name="state"
+                  placeholder="State/Province (optional)"
+                />
+                <Input
+                  value={this.state.country}
+                  onChange={this.handleInputChange}
+                  name="country"
+                  placeholder="Country (optional)"
+                />
+                <FormBtn
+                  className="searchbutton"
+                  disabled={!this.state.name}
+                  onClick={this.handleFormSearch}
+                >
+                  Search City
+              </FormBtn>
+              </form>
+            </div>
+
+
+          </Col>
+        </Row>
+
+        <Row>
+          <Col size="md-6 sm-12">
+            <div className="results">
+              {this.state.cities.length ? (
+                <table>
+                  <thead>
+                    <tr>
+                      <Th>SAVE</Th>
+                      <Th>Name</Th>
+                      <Th>State</Th>
+                      <Th>Country</Th>
+                      <Th>Population</Th>
+                      <Th>Lat</Th>
+                      <Th>Long</Th>
+
+                    </tr>
+                  </thead>
+                  <tbody className="table">
+
+                    {this.state.cities.map(city => (
+                      <Tr
+                        key={city.id}
+                        data_id={city.id}
+                        onClick={() => this.onRowClick(city)}
+                      >
+                        {this.state.savedCities.includes(city.id) ? (
+                          <Td></Td>
+                        ) : (
+                            <Td onClick={() => this.onSaveClick(city)}><i class="far fa-save"></i></Td>
+                          )}
+                        <Td>{city.name}</Td>
+                        <Td style={{ textAlign: "center" }}>{city.state}</Td>
+                        <Td style={{ textAlign: "center" }}>{city.country}</Td>
+                        <Td style={{ textAlign: "right" }}>{city.population}</Td>
+                        <Td style={{ textAlign: "right" }}>{city.lat}</Td>
+                        <Td style={{ textAlign: "right" }}>{city.long}</Td>
+
+                      </Tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                  <h3>No Cities Found</h3>
+                )}
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
 export default Search;

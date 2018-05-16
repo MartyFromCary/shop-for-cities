@@ -14,20 +14,21 @@ module.exports = {
 
   get: (req, res) => {
     if (!req.user) {
-      res.status(401).json({ message: "NOT LOGGED IN" });
+      res
+        .status(401)
+        .json({ message: "NOT LOGGED IN" });
       return;
     }
 
-    Users.findOne({ _id: req.user._id })
-      .populate("cities")
+    Users
+      .findOne({ _id: req.user._id }, { name: 1, cities: 1, _id: 0 })
+      .populate("cities", null, null, { sort: { createdAt: -1 } })
       .then(user => res.json(user))
       .catch(err => res.status(422).json(err.errmsg));
   },
 
-  login: (req, res) =>
-    Users.findOne({
-      email: req.body.email
-    })
-      .then(user => res.json(user))
-      .catch(err => res.status(422).json(err.errmsg))
+  login: (req, res) => Users
+    .findOne({ email: req.body.email })
+    .then(user => res.json(user))
+    .catch(err => res.status(422).json(err.errmsg))
 };
