@@ -178,9 +178,9 @@ class Search extends Component {
                         onClick={() => this.onRowClick(city)}
                       >
                         {this.state.savedCities.includes(city.id) ? (
-                          <Td>SAVED</Td>
+                          <Td></Td>
                         ) : (
-                            <Td onClick={() => this.onSaveClick(city)}>X</Td>
+                            <Td onClick={() => this.onSaveClick(city)}><i class="far fa-save"></i></Td>
                           )}
                         <Td>{city.name}</Td>
                         <Td style={{ textAlign: "center" }}>{city.state}</Td>
