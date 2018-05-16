@@ -20,14 +20,14 @@ const Td = styled.td`
   font-weight: bold;
   padding: 8px;
   &:hover {
-    background-color: yellow;
+    background-color: white;
   }
 `;
 
 const Tr = styled.tr`
   &:hover {
     font-weight: bold;
-    background-color: yellow;
+    background-color: white;
   }
 `;
 
