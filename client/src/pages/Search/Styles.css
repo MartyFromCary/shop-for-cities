@@ -1,4 +1,4 @@
-body {
+/* body {
 	background-image: url("../../Images/homePageBackground.jpg");
 	position:relative;
 	max-width: 100%;
@@ -7,7 +7,7 @@ body {
 	background-repeat:no-repeat;
 	background-position: right;
 	background-size:cover;
-}
+} */
 
 /* .box {
 	background-color:  rgba(62,60, 67, .5);
@@ -20,7 +20,7 @@ body {
 	padding-left:150px;
 	
 } */
-
+/* 
 .results {
 	background-color:  rgba(62,60, 67, .5);
 	color: white;
@@ -38,8 +38,95 @@ body {
 	margin-right:2px;
 	margin-left:2px;
 
+} */
+
+/* tbody tr:hover {
+	color:grey;
 }
 
+h3{
+
+	text-align: center;
+} */
+
+/* .searchbutton {
+	color: black;
+	background-color: rgba(255,255,255, .5);
+	position:relative;
+	padding-bottom:30px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	font-size: 20px;
+	border-radius: 12px;
+	right:120px;
+
+} */
+/* 
+.savedbutton{
+
+	color: black;
+	background-color: rgba(255,255,255, .5);
+	position:relative;
+	padding-bottom: 30px;
+	padding-top: 30px;
+	padding-right: 30px;
+	padding-left: 30px;
+	font-size: 20px;
+	border-radius: 12px;
+	top: 625px;
+	right: 350px;
+
+
+
+}	 */
+
+/* Anna's updated code here */
+
+body {
+	background-image: url("../../Images/homePageBackground.jpg");
+	position:relative;
+	max-width: 100%;
+    height: auto;
+    background-color:#bebdc7;
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size:cover;
+}
+
+.box {
+	background-color:  rgba(62,60, 67, .5);
+	position:relative;
+	width:660px;
+	right:60px;
+	margin-top: 40px;
+	padding-top:48px;
+	padding-right:170px;
+	padding-bottom:200px;
+	padding-left:150px;
+	
+}
+
+.results {
+	background-color:  rgba(62,60, 67, .5);
+	color: white;
+	width:660px;
+	position:relative;
+	top:-30px;
+	right:-340px;
+	margin-top: 40px;
+	padding-top:48px;
+	padding-right:50px;
+	padding-bottom:200px;
+	padding-left:8px;
+	border-radius: 12px;
+	margin-right: 300px;
+
+
+}
+
+
+	
 tbody tr:hover {
 	color:grey;
 }
@@ -59,7 +146,7 @@ h3{
 	padding-left: 30px;
 	font-size: 20px;
 	border-radius: 12px;
-	right:120px;
+	left:14px;
 
 }
 
@@ -76,7 +163,5 @@ h3{
 	border-radius: 12px;
 	top: 625px;
 	right: 350px;
-
-
-
 }	
+
