@@ -671,7 +671,7 @@ class Saved extends Component {
           {/* <Col size="md-2 sm-1"></Col> */}
 
           <Col size="md-7">
-            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp;Results</h3>
+            <h3>{this.state.catList.length}&nbsp;&nbsp;Results</h3>
             <div className="scroll-div">
               {this.state.catList.length
                 ? (this.renderCatList())
