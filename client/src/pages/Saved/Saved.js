@@ -519,7 +519,7 @@ class Saved extends Component {
                     .notes
                     .map(note => (
                       <Tr key={note._id} onClick={() => this.onNoteClick(note)}>
-                        <Td onClick={() => this.onNoteDelete(note._id)}><i class="fas fa-trash-alt"></i></Td>
+                        <Td onClick={() => this.onNoteDelete(note._id)}><i className="fas fa-trash-alt"></i></Td>
                         <Td>{note.title}</Td>
                       </Tr>
                     ))}
@@ -538,7 +538,7 @@ class Saved extends Component {
                     .cities
                     .map(city => (
                       <Tr key={city._id} onClick={() => this.onCityClick(city._id)}>
-                        <Td onClick={() => this.onDeleteClick(city)}><i class="fas fa-trash-alt"></i></Td>
+                        <Td onClick={() => this.onDeleteClick(city)}><i className="fas fa-trash-alt"></i></Td>
                         <Td>{city.name}</Td>
                         <Td
                           style={{
