@@ -24,6 +24,15 @@ body {
 
 }
 
+table{
+	width: 100%;
+}
+
+.choosingWrapper{
+	padding: 10px;
+	border: solid 5px white;
+	border-radius: 5px;
+}
 .saved-cities {
 	background-color: rgba(62, 60, 67, .5);
 	color:white;
