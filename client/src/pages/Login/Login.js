@@ -66,6 +66,8 @@ class Login extends Component {
     return (
       <Container fluid>
         <Row>
+        <Col size="md-3">
+        </Col>
           <Col size="md-6">
           <div className="box">
             <Jumbotron>
