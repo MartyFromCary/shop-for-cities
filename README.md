@@ -1,7 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 ## Application Objective
-A personal notebook about places a user may consider visiting, moving to, or even avoiding.
+A personal notebook about places a user may consider visiting, moving to, or even avoiding.
 
 It enables users to keep track of their city searches in one place providing an easy way to review saved information between the cities. It’s also a good tool for business owners wanting to explore potential business locations.
 
