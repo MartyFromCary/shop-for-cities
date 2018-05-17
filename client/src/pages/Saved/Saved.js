@@ -316,7 +316,7 @@ class Saved extends Component {
 
   componentDidMount = () => this.loadUser();
 
-  onCategoryClick = category => this.setState({ category });
+  onCategoryClick = category => this.setState({ category, catList: [] });
   onRadiusClick = radius => this.setState({ radius });
 
   onNoteDelete = _id => API.deleteNote({
@@ -334,22 +334,10 @@ class Saved extends Component {
 
   onNoteClick = note => this.setState({ note: note });
 
-  onDeleteClick = city =>
-    /*   let Obj = {
-         _id: city._id,
-         cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
-         notes: city.notes
-       };*/
-    API
-      .deleteSaved({
-        _id: city._id,
-        cities: this.state.cities.map(city => city._id).filter(_id => _id !== city._id),
-        notes: city.notes
-      })
-      .then(res => this.loadUser())
-      .catch(err => console.log(err));
-
-  onCityClick = _id => this.loadCity(_id);
+  cityDelete = _id => API
+    .cityDelete(_id)
+    .then(res => this.loadUser())
+    .catch(err => console.log(err));
 
   searchWithParameters = () => {
     if (!(this.state.city.lat && this.state.category)) {
@@ -386,7 +374,18 @@ class Saved extends Component {
 
   loadUser = () => API
     .getUser()
-    .then(({ data }) => this.setState({ name: data.name, cities: data.cities }))
+    .then(({ data }) => this.setState({
+      name: data.name,
+      cities: data.cities,
+      city: {
+        name: "",
+        state: "",
+        country: "",
+        lat: "",
+        long: "",
+        notes: []
+      }
+    }))
     .catch(err => console.log(err));
 
   loadCity = _id => API
@@ -519,7 +518,9 @@ class Saved extends Component {
                     .notes
                     .map(note => (
                       <Tr key={note._id} onClick={() => this.onNoteClick(note)}>
-                        <Td onClick={() => this.onNoteDelete(note._id)}><i className="fas fa-trash-alt"></i></Td>
+                        <Td onClick={() => this.onNoteDelete(note._id)}>
+                          <i className="fas fa-trash-alt"></i>
+                        </Td>
                         <Td>{note.title}</Td>
                       </Tr>
                     ))}
@@ -537,17 +538,21 @@ class Saved extends Component {
                     .state
                     .cities
                     .map(city => (
-                      <Tr key={city._id} onClick={() => this.onCityClick(city._id)}>
-                        <Td onClick={() => this.onDeleteClick(city)}><i className="fas fa-trash-alt"></i></Td>
-                        <Td>{city.name}</Td>
+                      <Tr key={city._id}>
+                        <Td onClick={() => this.cityDelete(city._id)}>
+                          <i className="fas fa-trash-alt"></i>
+                        </Td>
+                        <Td onClick={() => this.loadCity(city._id)}>{city.name}</Td>
                         <Td
                           style={{
                             textAlign: "center"
-                          }}>{city.state}</Td>
+                          }}
+                          onClick={() => this.loadCity(city._id)}>{city.state}</Td>
                         <Td
                           style={{
                             textAlign: "center"
-                          }}>{city.country}</Td>
+                          }}
+                          onClick={() => this.loadCity(city._id)}>{city.country}</Td>
                       </Tr>
                     ))}
                 </tbody>
