@@ -498,11 +498,43 @@ class Saved extends Component {
     return (
       <Container fluid>
 
-        <Link to="/search">
-          <button className="search-cities-button">Search Cities</button>
-        </Link>
+        <Row className="justify">
+          <Col size="md-2"></Col>
+          <Col size="md-2">
+            <Link to="/search">
+              <button className="search-cities-button">Search Cities</button>
+            </Link>        
+          </Col>
 
-        <Row>
+          <Col size="md-7">
+            <h3>Selected Parameters</h3>
+              <table className="saved-cities">
+                <thead>
+                  <tr>
+                    <Th>City</Th>
+                    <Th>Lat</Th>
+                    <Th>Long</Th>
+                    <Th>Category</Th>
+                    <Th>Radius</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <Tr>
+                    <Td>{this.state.city.name}</Td>
+                    <Td>{this.state.city.lat}</Td>
+                    <Td>{this.state.city.long}</Td>
+                    <Td>{this.state.category}</Td>
+                    <Td>{this.state.radius}</Td>
+                  </Tr>
+                </tbody>
+              </table>
+              <br />
+              <button onClick={this.searchWithParameters}>Search with Parameters</button>
+          </Col>
+        </Row>
+
+        <Row>  
+          <Col size="md-1"></Col>
           <Col size="md-3 sm-6">
             {this.state.city.name
               ? <h3>Saved Notes for {this.state.city.name}</h3>
@@ -538,11 +570,13 @@ class Saved extends Component {
                     .state
                     .cities
                     .map(city => (
+
                       <Tr key={city._id}>
                         <Td onClick={() => this.cityDelete(city._id)}>
                           <i className="fas fa-trash-alt"></i>
                         </Td>
                         <Td onClick={() => this.loadCity(city._id)}>{city.name}</Td>
+
                         <Td
                           style={{
                             textAlign: "center"
@@ -560,8 +594,10 @@ class Saved extends Component {
             </div>
           </Col>
 
-          <Col size="md-2 sm-4">
+          <Col size="md-2 sm-1">
+          <div className="catChooser">
             <h3>Category</h3>
+            
             <div className="scroll">
               <table className="saved-cities">
                 <tbody>
@@ -578,9 +614,10 @@ class Saved extends Component {
                 </tbody>
               </table>
             </div>
+            </div>
           </Col>
 
-          <Col size="md-1 sm-2">
+          <Col size="md-2 sm-1">
             <h3>Radius</h3>
             <div className="scroll">
               <table className="saved-cities">
@@ -595,43 +632,11 @@ class Saved extends Component {
               </table>
             </div>
           </Col>
-
         </Row>
 
         <Row>
-          <Col size="md-3 sm-6" />
-
-          <Col size="md-3 sm-6">
-            <h3>Selected Parameters</h3>
-            <table className="saved-cities">
-              <thead>
-                <tr>
-                  <Th>City</Th>
-                  <Th>Lat</Th>
-                  <Th>Long</Th>
-                  <Th>Category</Th>
-                  <Th>Radius</Th>
-                </tr>
-              </thead>
-              <tbody>
-                <Tr>
-                  <Td>{this.state.city.name}</Td>
-                  <Td>{this.state.city.lat}</Td>
-                  <Td>{this.state.city.long}</Td>
-                  <Td>{this.state.category}</Td>
-                  <Td>{this.state.radius}</Td>
-                </Tr>
-              </tbody>
-            </table>
-            <br />
-            <button onClick={this.searchWithParameters}>Search with Parameters</button>
-          </Col>
-
-        </Row>
-        <Row>
-
-          <Col size="md-3 sm-6">
-
+          <Col size="md-1"></Col>
+          <Col size="md-3">
             <h3>Note</h3>
             <form>
               <label style={{
@@ -661,22 +666,21 @@ class Saved extends Component {
                 name="body" />
             </form>
             <button onClick={this.submitNote}>Add/Edit Note</button>
-
           </Col>
 
-          <Col size="md-2 sm-1"></Col>
+          {/* <Col size="md-2 sm-1"></Col> */}
 
-          <Col size="md-3 sm-6">
-            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp; Results</h3>
+          <Col size="md-7">
+            <h3 className="category-title">{this.state.catList.length}&nbsp;&nbsp;Results</h3>
             <div className="scroll-div">
               {this.state.catList.length
                 ? (this.renderCatList())
                 : (
-                  <h3>No Results</h3>
+                  <h3></h3>
                 )}
             </div>
           </Col>
-
+          <Col size="md-1"></Col>
         </Row>
       </Container>
     );

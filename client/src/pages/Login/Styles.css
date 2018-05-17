@@ -1,3 +1,31 @@
+/* body {
+	background-image: url("../../Images/homePageBackground.jpg");
+	max-width: 100%;
+    background-color:#bebdc7;
+	background-repeat:no-repeat;
+	background-size:cover;
+	color: rgba(62, 60, 67, .5);
+} */
+
+/* .box { */
+	/* display: flex; */
+	/* background-color: rgba(62,60, 67, .5);
+	padding-top: 200px;
+	padding-right:160px;
+	padding-bottom:200px;
+	padding-left:160px;
+
+	border-radius: 12px;
+	
+} */
+
+/* .searchbutton:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+} */
+
+/* Anna's updated css */
+
 body {
 	background-image: url("../../Images/homePageBackground.jpg");
 	max-width: 100%;
@@ -9,13 +37,12 @@ body {
 
 .box {
 	background-color: rgba(62,60, 67, .5);
-	position:relative;
-	top:40px;
-	right:60px;
+	width: 100%;
+	margin-left: 400px;
 	padding-top: 200px;
-	padding-right:160px;
+	padding-right:200px;
 	padding-bottom:200px;
-	padding-left:160px;
+	padding-left:200px;
 	border-radius: 12px;
 }
 
@@ -23,3 +50,13 @@ body {
 	cursor: pointer;
 	transform: scale(1.1);
 }
+
+.searchbutton {
+	position: relative;
+	top: 5px;
+	left: -12px;
+	margin-left: 10px;
+}
+
+
+
