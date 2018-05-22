@@ -17,3 +17,7 @@ GET and POST routes for retrieving and adding new data
 Heroku deployment of app and data
 Passport for database password encryption
 MVC paradigm
+
+Heroku Deployed:
+
+https://stark-forest-12305.herokuapp.com/
